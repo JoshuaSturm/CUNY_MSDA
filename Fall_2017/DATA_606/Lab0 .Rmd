@@ -1,0 +1,143 @@
+---
+title: "DATA 606 - Lab0"
+author: "Joshua Sturm"
+date: "August 28, 2017"
+output:
+  html_document:
+    css: ./lab.css
+    highlight: pygments
+    theme: cerulean
+    code_folding: show
+  pdf_document: default
+---
+
+Note: I spent some time trying to find a way to compact the data to speed up the knitting process. I came across the `DataTables` library, which I think is amazing, and I've incorporated throughout my lab.
+
+## Load the arbuthnot dataset
+```{r load-abrbuthnot-data, eval=TRUE}
+source("more/arbuthnot.R")
+```
+```{r}
+library(DT)
+datatable(arbuthnot, extensions = 'Scroller', options = list(
+  deferRender = TRUE,
+  scrollY = 300,
+  scroller = TRUE
+))
+```
+
+1.  What command would you use to extract just the counts of girls baptized? Try
+    it!
+```{r question1, eval=TRUE}
+arbuthnot$girls
+```
+
+2.  Is there an apparent trend in the number of girls baptized over the years?  
+    How would you describe it?
+    
+```
+To better illustrate the trend, I will plot it using
+```
+
+```{r question2, fig.align = "center"}
+plot(arbuthnot$girls)
+```
+```
+The number of girls being baptized increases extremely quickly from 1660 through 1700.
+```
+
+3.  Now, make a plot of the proportion of boys over time. What do you see? Tip: 
+If you use the up and down arrow keys, you can scroll through your previous 
+commands, your so-called command history. You can also access it by clicking on 
+the history tab in the upper right panel.  This will save you a lot of typing in
+the future.
+
+```{r question3, eval=TRUE, fig.align = "center"}
+    plot(arbuthnot$year, (arbuthnot$boys / (arbuthnot$boys + arbuthnot$girls)), type="l")
+```
+```
+The proportion of boys baptized decreases between 1629 and 1710. However, the graph is always above 0.5, so there are always proportionately more boys being baptized than girls.
+```
+
+## On Your Own
+
+Load the present dataset:
+```{r presentdb}
+source("more/present.R")
+```
+
+a.  What years are included in this data set? What are the dimensions of the 
+    data frame and what are the variable or column names?
+    
+Load the data in the file "present.R"
+```{r OYO1, eval=TRUE}
+    library(DT)
+datatable(present, extensions = 'Scroller', options = list(
+  deferRender = TRUE,
+  scrollY = 300,
+  scroller = TRUE
+))
+present$year
+```
+```
+We can see the file has values for the year 1940-2002. 
+
+Alternatively, we can find the exact values with the min and max functions.
+```
+
+Get the dimensions 
+```{r}
+    dim(present)
+```
+```      
+There are 63 year's worth of data, and three variables.
+```    
+Get the column names
+```{r}
+    names(present)
+```
+      
+b.   How do these counts compare to Arbuthnot's? Are they on a similar scale?
+
+```
+If we compare the sums of the two variables in both data sets, we can see how much we're dealing with in each.
+```
+
+```{r}
+    arbuthnot$girls + arbuthnot$boys
+    present$girls + present$boys
+```
+    
+    We can see that the present data set does not have less than a seven figure sum, whereas the arbuthnot set has at most five. So the present data set is much, much larger.
+
+c.  Make a plot that displays the boy-to-girl ratio for every year in the data 
+    set. What do you see? Does Arbuthnot's observation about boys being born in
+    greater proportion than girls hold up in the U.S.? Include the plot in your 
+    response.
+    
+```{r fig.align="center"}
+    plot(present$year, present$boys / present$girls, type="l")
+```
+    
+    Like Arbuthnot's data, there were more boys (being born, in this case) in the U.s. than girls. The ratio declined over the observed years, but is much higher in the present data set.
+    
+
+d.  In what year did we see the most total number of births in the U.S.?
+    
+```{r}
+    which.max(present$boys+present$girls)
+```
+```
+This returns the value '22'. To find the corresponding year, we can do
+```
+```{r}
+present[22,c(1)]
+```
+
+``` which gives us the year 1961.```
+
+To find the actual value of the max, we can use the command
+
+```{r}
+    sum(present[22,c(2,3)])
+```

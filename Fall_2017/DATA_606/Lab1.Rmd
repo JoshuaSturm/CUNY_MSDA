@@ -1,0 +1,203 @@
+---
+title: "DATA606 - Lab1"
+author: "Joshua Sturm"
+date: "August 29, 2017"
+output:
+  html_document: 
+    code_folding: show
+  pdf_document: default
+---
+
+### Load the CDC dataset
+```{r}
+source("http://www.openintro.org/stat/data/cdc.R")
+```
+
+1.  How many cases are there in this data set?  How many variables?  For each 
+    variable, identify its data type (e.g. categorical, discrete).
+
+```{r}
+dim(cdc)
+```
+
+Each row is a case, and each column is a variable, so there are 20000 cases and 9 variables.
+
+We first get the variable names:
+```{r}
+names(cdc)
+```
+
+  * genhlth  = Categorical (ordinal). It's not numeric, and there are different levels.
+  * exerany  = Categorical (nominal). It's a binary question, and there aren't levels, i.e. 1 isn't better/higher than 0.
+  * hlthplan = Categorical (nominal). ibid.
+  * smoke100 = Categorical (nominal). ibid.
+  * height   = Numerical (discrete). Since it records it inches, and assuming there can't be fractions, it gives an exact number.
+  * weight   = Numerical (discrete). ibid.
+  * wtdesire = Numerical (discrete). ibid.
+  * age      = Numerical (discrete). ibid.
+  * gender   = Categorical (nominal). Same reason as the other nominals.
+  
+2.  Create a numerical summary for `height` and `age`, and compute the 
+    interquartile range for each. Compute the relative frequency distribution for
+    `gender` and `exerany`. How many males are in the sample? What proportion of
+    the sample reports being in excellent health?
+
+```{r}
+summary(cdc$height)
+```
+
+The interquartile range for `height` is
+```{r eval=TRUE}
+70 - 64
+```
+
+```{r}
+summary(cdc$age)
+```
+
+The interquartile range for `age` is
+```{r eval=TRUE}
+57 - 31
+```
+
+The relative frequency for `gender` is
+```{r}
+table(cdc$gender)/20000
+```
+
+The relative frequency for `exerany` is
+```{r}
+table(cdc$exerany)/20000
+```
+
+The number of males in the sample is
+```{r}
+table(cdc$gender)
+```
+9569.
+
+```{r}
+table(cdc$genhlth)
+```
+
+Since excellent is the first column, we can run the following command to get the proportion
+
+```{r}
+table(cdc$genhlth)[1]/20000
+```
+~23.3% of the sample reported being in excellent overall health.
+
+3.  What does the mosaic plot reveal about smoking habits and gender?
+
+```{r fig.align = "center"}
+mosaicplot(table(cdc$gender, cdc$smoke100))
+```
+
+We can see that more males than females reported having smoked 100 cigarettes in their lifetime.
+
+4.  Create a new object called `under23_and_smoke` that contains all observations 
+    of respondents under the age of 23 that have smoked 100 cigarettes in their 
+    lifetime. Write the command you used to create the new object as the answer
+    to this exercise.
+
+```{r}
+under23_and_smoke <- subset(cdc, age < 23 & smoke100 == "1")
+nrow(under23_and_smoke)
+```
+There are 620 people that match these criteria.
+
+4.  What does this box plot show? Pick another categorical variable from the 
+    data set and see how it relates to BMI. List the variable you chose, why you
+    might think it would have a relationship to BMI,  and indicate what the 
+    figure seems to suggest. 
+
+```{r fig.align = "center"}
+bmi <- (cdc$weight / cdc$height^2) * 703
+boxplot(bmi ~ cdc$genhlth)
+```
+We can see that `bmi` is inversely correlated with reported health condition.
+
+I would imagine that `bmi` would also be negatively correlated with `exerany`. To check, we can enter
+```{r fig.align = "center"}
+boxplot(bmi ~ cdc$exerany)
+```
+Aside from a few outliers, we can see that this is indeed the case.
+
+## On Your Own
+
+1.  Make a scatterplot of weight versus desired weight. Describe the 
+    relationship between these two variables.
+    
+We can plot this using
+```{r fig.align = "center"}
+plot(cdc$weight, cdc$wtdesire)
+```
+There is a positive correlation between weight and desired weight. That is, the desired weight of those with a higher weight is higher than those with a lower weight.
+
+2.  Let's consider a new variable: the difference between desired weight 
+    (`wtdesire`) and current weight (`weight`). Create this new variable by 
+    subtracting the two columns in the data frame and assigning them to a new 
+    object called `wdiff`.
+    
+```{r}
+wdiff <- (cdc$wtdesire - cdc$weight)
+```
+
+3.  What type of data is `wdiff`? If an observation `wdiff` is 0, what does 
+    this mean about the person's weight and desired weight. What if `wdiff` is 
+    positive or negative?
+    
+Assuming that we only record integers (round to the nearest lb/kg), then `wdiff` is a Numerical (discrete) variable.
+If `wdiff` is 0, then the person is at their desired weight. 
+If `wdiff` is x < 0, then the person wants to lose x lbs/kgs.
+If `wdiff` is x > 0, then the person wants to gain x lbs/kgs.
+
+4.  Describe the distribution of `wdiff` in terms of its center, shape, and 
+    spread, including any plots you use. What does this tell us about how people 
+    feel about their current weight?
+    
+First, let's get a summary
+```{r}
+summary(wdiff)
+```
+And a few graphs
+```{r fig.align = "center"}
+boxplot(wdiff)
+hist(wdiff)
+hist(wdiff, breaks = 100)
+```
+
+The vast majority are close to their ideal weight, with a few extreme cases. The average amount of weight people want to lose is ~14.5 lbs/kgs.
+
+5.  Using numerical summaries and a side-by-side box plot, determine if men tend
+    to view their weight differently than women.
+
+We'll start by isolating each gender, finding their respective `wdiff`, listing a summary of each, and, finally, plotting `wdiff` respective to each gender.
+```{r}
+# I looked up how to better specify what I want from the subset function (?subset), and was able to perform the following.
+mwdiff <- subset(cdc, gender == "m", select = c(wtdesire, weight))
+summary(mwdiff)
+fwdiff <- subset(cdc, gender == "f", select = c(wtdesire, weight))
+summary(fwdiff)
+boxplot(wdiff ~ cdc$gender, ylim = c(-75,75))
+```
+
+From the tables and graphs, it's evident that men are closer to their ideal weight, while women prefer to lose more weight. 
+
+Note: I limited the y-axis so that the plot will be zoomed in, and to remove the influence of the few outliers on each side.
+
+6.  Now it's time to get creative. Find the mean and standard deviation of 
+    `weight` and determine what proportion of the weights are within one 
+    standard deviation of the mean.
+    
+```{r}
+# Get an overall summary, including the mean
+summary(cdc$weight)
+# Function to get the sd
+sd(cdc$weight)
+cweight = cdc$weight
+# I found the inner function to determine data within 1 sd on Stack Overflow. I repurposed it for my own needs, and then used the NROW function to determine the number of pieces of data fall within that 1 sd.
+withinOne <- NROW(cweight[abs(cweight - mean(cweight)) <= sd(cweight)])
+# To find the proportion, simply divide by the sample size, i.e. 20000
+withinOne / 20000
+```
