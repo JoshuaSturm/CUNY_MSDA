@@ -3,14 +3,16 @@ title: "DATA606 - Lab1"
 author: "Joshua Sturm"
 date: "August 29, 2017"
 output:
-  html_document: 
+  html_document:
+    theme: cerulean
+    highlight: pygments
+    css: ./lab.css
     code_folding: show
-  pdf_document: default
 ---
 
 ### Load the CDC dataset
 ```{r}
-source("http://www.openintro.org/stat/data/cdc.R")
+source("more/cdc.R")
 ```
 
 1.  How many cases are there in this data set?  How many variables?  For each 
@@ -173,12 +175,14 @@ The vast majority are close to their ideal weight, with a few extreme cases. The
     to view their weight differently than women.
 
 We'll start by isolating each gender, finding their respective `wdiff`, listing a summary of each, and, finally, plotting `wdiff` respective to each gender.
-```{r}
+```{r fig.align = "center"}
 # I looked up how to better specify what I want from the subset function (?subset), and was able to perform the following.
 mwdiff <- subset(cdc, gender == "m", select = c(wtdesire, weight))
 summary(mwdiff)
+summary(mwdiff$wtdesire - mwdiff$weight)
 fwdiff <- subset(cdc, gender == "f", select = c(wtdesire, weight))
 summary(fwdiff)
+summary(fwdiff$wtdesire - fwdiff$weight)
 boxplot(wdiff ~ cdc$gender, ylim = c(-75,75))
 ```
 

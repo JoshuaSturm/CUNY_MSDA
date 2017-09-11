@@ -4,14 +4,17 @@ author: "Joshua Sturm"
 date: "August 28, 2017"
 output:
   html_document:
+    code_folding: show
     css: ./lab.css
     highlight: pygments
     theme: cerulean
-    code_folding: show
-  pdf_document: default
+  pdf_document:
+    keep_tex: yes
+always_allow_html: yes
 ---
 
 Note: I spent some time trying to find a way to compact the data to speed up the knitting process. I came across the `DataTables` library, which I think is amazing, and I've incorporated throughout my lab.
+
 
 ## Load the arbuthnot dataset
 ```{r load-abrbuthnot-data, eval=TRUE}
