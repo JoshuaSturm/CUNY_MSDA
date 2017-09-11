@@ -1,0 +1,37 @@
+---
+title: "Data 607 Assignment 2"
+author: "Aryeh Sturm & Joshua Sturm"
+date: "September 6, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Use RMySQL library
+```{r}
+library(knitr)
+library(RMySQL)
+```
+
+#Set up connection
+```{r}
+db = dbConnect(MySQL(), user='root', password='password', dbname='tb', host='localhost')
+```
+
+#Peek inside the connected database
+```{r}
+dbListTables(db)
+```
+
+#Fetch results of SQL query into table
+```{r}
+rs = dbSendQuery(db, "select * from movies")
+movies <- fetch(rs, n=-1)
+```
+
+#Imported table
+```{r final-table, eval=TRUE}
+movies
+```
