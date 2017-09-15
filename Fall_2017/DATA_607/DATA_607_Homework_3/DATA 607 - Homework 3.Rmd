@@ -1,0 +1,77 @@
+---
+title: "DATA 607 - Homework 3"
+author: "Joshua Sturm"
+date: "09/14/2017"
+output:
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    keep_tex: yes
+always_allow_html: yes
+---
+  
+## Exercise 8.3
+
+  **(a)** Use the tools of this chapter to rearrange the vector so that all elements conform to
+the standard first_name last_name.
+
+Solution:
+
+```{r}
+# Load the stringr library
+
+library(stringr)
+
+# Input the data
+
+raw.data <-"555-1239Moe Szyslak(636) 555-0113Burns, C. Montgomery555-6542Rev. Timothy Lovejoy555 8904Ned Flanders636-555-3226Simpson, Homer5553642Dr. Julius Hibbert"   
+
+# Extract just the names (by looking for letters)
+
+name <- unlist(str_extract_all(raw.data, "[[:alpha:]., ]{2,}"))
+name
+
+# Run a loop through the subset name. If there's a comma in that name, split it into a 1x2 vector, and switch the order. Lastly, 'trim' the whitespace from the left side.
+
+for (i in 1:(length(name)))
+{
+  pat <- ","
+  if (grepl(pat, name[i]) == 1)
+  {
+    separate_names <- unlist(str_split(name[i], ","))
+    name[i] <- str_c(separate_names[2], separate_names[1], sep = " ")
+  }
+}
+str_trim(name, side = "left")
+name
+```
+
+### Exercise 8.3b
+  **(b)** Construct a logical vector indicating whether a character has a title (i.e., Rev. and
+Dr.).
+  
+Solution:
+
+```{r}
+# Search our subset for either of these titles
+
+grep("(Rev.|Dr.)", name)
+
+# Identify the two results
+
+name[c(3,6)]
+```
+
+### Exercise 8.3c
+
+  **(c)** Construct a logical vector indicating whether a character has a second name.
+  
+Solution:
+
+```{r}
+second_name <- str_count(fixed(name[c(1,2,4,5)]), "\\w+")
+grep("3", second_name)
+name[2]
+```
