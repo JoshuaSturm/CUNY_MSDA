@@ -45,7 +45,6 @@ for (i in 1:(length(name)))
   }
 }
 str_trim(name, side = "left")
-name
 ```
 
 ### Exercise 8.3b
@@ -74,4 +73,87 @@ Solution:
 second_name <- str_count(fixed(name[c(1,2,4,5)]), "\\w+")
 grep("3", second_name)
 name[2]
+```
+
+## Exercise 8.4
+
+  Describe the types of strings that conform to the following regular expressions and construct an example that is matched by the regular expression.
+  
+### 8.4a 
+
+(a) [0-9]+ \\ \$\
+
+```{r}
+# Matches one or more digits followed by a dollar sign.
+pat <- "[0-9]+\\$"
+ex <- c("1$", "abc123$", "123$abc")
+grepl(pat, ex)
+```
+
+### 8.4b
+
+(b) \\ b[a-z]{1,4} \\ b\
+
+```{r}
+# Matches between 1 and 4 consecutive lowercase letters
+pat <- "\\b[a-z]{1,4}\\b"
+ex <- c("alpha", "beta", "gamma", "ZeTa", "eta")
+grepl(pat, ex)
+```
+
+### 8.4c
+
+(c) .*? \\ .txt\$\
+
+```{r}
+# Matches wildcard string ending in .txt
+pat <- ".*?\\.txt$"
+ex <- c("abc.txt", "123.txt", "123abc123.txt", "%#LMV#Ckdnf3i2.txt")
+grepl(pat, ex)
+```
+
+### 8.4d
+
+(d) \\ d{2}/ \\ d{2}/ \\ d{4}
+
+```{r}
+# Matches a string of digits in the format 12/34/5678
+pat <- "\\d{2}/\\d{2}/\\d{4}"
+ex <- c("98/76/5432", "1/2/3", "12/34/56")
+grepl(pat, ex)
+```
+
+### 8.4e
+
+(e) <(.+?)>.+?</ \\ 1>\
+
+```{r}
+# Matches 
+```
+
+## Exercise 8.9
+
+The following code hides a secret message. Crack it with R and regular expressions.
+
+clcopCow1zmstc0d87wnkig7OvdicpNuggvhryn92Gjuwczi8hqrfpRxs5Aj5dwpn0Tanwo
+Uwisdij7Lj8kpf03AT5Idr3coc0bt7yczjatOaootj55t3Nj3ne6c4Sfek.r1w1YwwojigO
+d6vrfUrbz2.2bkAnbhzgv4R9i05zEcrop.wAgnb.SqoU65fPa1otfb7wEm24k6t3sR9zqe5
+fy89n6Nd5t9kc4fE905gmc4Rgxo5nhDk!gr
+
+Solution:
+
+My first guess was all the capital letters, since there were only a handful of them. Extracting each manually, I found this: CONGRATULATIONSYOUAREASUPERNERD. Now to do it in `R`:
+
+```{r}
+# Load the encrypted message 
+
+encrypt <- "clcopCow1zmstc0d87wnkig7OvdicpNuggvhryn92Gjuwczi8hqrfpRxs5Aj5dwpn0Tanwo
+Uwisdij7Lj8kpf03AT5Idr3coc0bt7yczjatOaootj55t3Nj3ne6c4Sfek.r1w1YwwojigO
+d6vrfUrbz2.2bkAnbhzgv4R9i05zEcrop.wAgnb.SqoU65fPa1otfb7wEm24k6t3sR9zqe5
+fy89n6Nd5t9kc4fE905gmc4Rgxo5nhDk!gr"
+
+# Extract just the capital letters
+
+decrypt <- unlist(str_extract_all(encrypt, "[[:upper:]]{1,}"))
+decrypt
 ```
