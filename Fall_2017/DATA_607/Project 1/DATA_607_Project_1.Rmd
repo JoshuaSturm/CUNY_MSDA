@@ -1,0 +1,173 @@
+---
+title: "DATA 607 - Project 1"
+author: "Joshua Sturm"
+date: "September 18, 2017"
+output:
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    keep_tex: yes
+always_allow_html: yes
+---
+
+# Task:
+
+In this project, you're given a text file with chess tournament results where the information has some structure. Your
+job is to create an R Markdown file that generates a .CSV file (that could for example be imported into a SQL database)
+with the following information for all of the players:
+
+Player’s Name, Player’s State, Total Number of Points, Player's Pre-Rating, and Average Pre Chess Rating of Opponents
+For the first player, the information would be:
+
+Gary Hua, ON, 6.0, 1794, 1605
+
+1605 was calculated by using the pre-tournament opponents’ ratings of 1436, 1563, 1600, 1610, 1649, 1663, 1716, and
+dividing by the total number of games played.
+
+If you have questions about the meaning of the data or the results, please post them on the discussion forum. Data
+science, like chess, is a game of back and forth...
+
+The chess rating system (invented by a Minnesota statistician named Arpad Elo) has been used in many other contexts,
+including assessing relative strength of employment candidates by human resource departments.
+
+You may substitute another text file (or set of text files, or data scraped from web pages) of similar or greater
+complexity, and create your own assignment and solution. You may work in a small team. All of your code should be in
+an R markdown file (and published to rpubs.com); with your data accessible for the person running the script.
+
+```{r}
+# Load necessary libraries
+library(stringr)
+library(DT)
+```
+
+## Load the Data
+
+```{r}
+# Load the data from the file hosted in my github project folder
+
+chess_data <- read.table(url("https://raw.githubusercontent.com/JoshuaSturm/CUNY_MSDA/Public/Fall_2017/DATA_607/Project%201/tournamentinfo.txt"), sep = ",")
+
+head(chess_data)
+
+# Since the regex I made will include the top row, I can exclude it since it doesn't have relevant info, anyway
+
+chess_data <- chess_data[c(5:nrow(chess_data)),]
+
+# Preview the table format
+
+head(chess_data)
+```
+
+## Extracting the variables we want
+
+### Extract player IDs
+
+```{r}
+id_pattern <- "\\d{1,2}(?=\\s\\|)"
+chess_id <- unlist(str_extract_all(unlist(chess_data), id_pattern))
+```
+
+### Extract player names
+
+```{r}
+# Extract the player names
+# Note that I made use of the website 'RegExr.com'
+
+# The pattern I made is multiple capital letters, followed by a space, with at least two matches
+
+name_pattern <- "([[:upper:]]+\\s){2,}"
+chess_names <- unlist(str_extract_all(unlist(chess_data), name_pattern))
+str_trim(chess_names, side = "right")
+```
+
+### Extract player states
+
+```{r}
+# Extract each player's state
+
+# The pattern I made is 2 capital letters, followed by a space, followed by a '|'
+
+state_pattern <- "([[:upper:]]){2}\\s(?=\\|)"
+chess_states <- unlist(str_extract_all(unlist(chess_data), state_pattern))
+str_trim(chess_states, side = "right")
+```
+
+### Extract total number of points
+
+```{r}
+# Extract each player's total number of points
+
+# The pattern I made is two digits with a period between them
+
+points_pattern <- "\\d\\.\\d"
+chess_points <- unlist(str_extract_all(unlist(chess_data), points_pattern))
+chess_points
+```
+
+### Extract player's pre-rating
+
+```{r}
+# Extract each player's pre-rating
+
+# This one was tricky. It would include some of the 3 number post-ratings. I experimented with about a dozen patterns before I created one that worked perfectly. It excludes leading patterns with a > and a space. Then looks for between 1 and two spaces, or one space and a colon, followed by 3 or 4 digits, followed by a space or the letter 'P'
+
+pre_pattern <- "(?<!\\>\\s)(?<=\\s{1,2}|\\s\\:)(\\d{3,4}(?=\\s|P))"
+chess_pre <- unlist(str_extract_all(unlist(chess_data), pre_pattern))
+chess_pre <- str_trim(chess_pre)
+```
+
+### Extract average pre-rating of opponents
+
+```{r}
+# Extract the average of opponents' pre-rating
+
+# Begin by vectorizing each player's opponents
+
+opponents_pattern <- "(\\d{1,}|[[:blank:]]{1})(?=\\|)"
+player_opponents <- unlist(str_extract_all(unlist(chess_data), opponents_pattern))
+player_opponents[player_opponents==" "]  <- NA
+opponent1 <- as.numeric(player_opponents[seq(4, length(player_opponents), 10)])
+opponent1 <- as.numeric(opponent1[seq(1, length(opponent1), 2)])
+opponent2 <- as.numeric(player_opponents[seq(5, length(player_opponents), 10)])
+opponent2 <- as.numeric(opponent2[seq(1, length(opponent2), 2)])
+opponent3 <- as.numeric(player_opponents[seq(6, length(player_opponents), 10)])
+opponent3 <- as.numeric(opponent3[seq(1, length(opponent3), 2)])
+opponent4 <- as.numeric(player_opponents[seq(7, length(player_opponents), 10)])
+opponent4 <- as.numeric(opponent4[seq(1, length(opponent4), 2)])
+opponent5 <- as.numeric(player_opponents[seq(8, length(player_opponents), 10)])
+opponent5 <- as.numeric(opponent5[seq(1, length(opponent5), 2)])
+opponent6 <- as.numeric(player_opponents[seq(9, length(player_opponents), 10)])
+opponent6 <- as.numeric(opponent6[seq(1, length(opponent6), 2)])
+opponent7 <- as.numeric(player_opponents[seq(10, length(player_opponents), 10)])
+opponent7 <- as.numeric(opponent7[seq(1, length(opponent7), 2)])
+player_opponents <- matrix(c(opponent1, opponent2, opponent3, opponent4, opponent5, opponent6, opponent7),nrow = 64, ncol = 7)
+
+# Match the opponent to the player's id
+
+chess_avg <- 0
+chess_table <- 0
+for (i in 1:(length(chess_id)))
+{
+  chess_avg[i] <- mean(as.numeric(chess_pre[player_opponents[i,]]), na.rm = T)
+}
+```
+
+
+## Create a data table of all info
+
+```{r}
+chess_table <- data.frame(chess_names, chess_states, chess_points, chess_pre, chess_avg)
+datatable(chess_table, extensions = 'Scroller', options = list(
+  deferRender = TRUE,
+  scrollY = 200,
+  scroller = TRUE
+))
+```
+
+## Write info to .csv file
+
+```{r}
+write.csv(chess_table, file = "chessTable.csv")
+```
