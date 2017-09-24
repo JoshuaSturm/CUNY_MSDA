@@ -1,0 +1,15 @@
+---
+title: "DATA 607 - Assignment 5"
+author: "Joshua Sturm"
+date: "September 24, 2017"
+output:
+  pdf_document:
+    keep_tex: yes
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+always_allow_html: yes
+---
+
+\\includegraphics[width=0.5]{https://github.com/JoshuaSturm/CUNY_MSDS/blob/master/Fall_2017/DATA_607/DATA_607_Homework_5/Assignment%20Tidying%20and%20Transforming%20Data.pdf}
