@@ -3,6 +3,8 @@ title: "DATA 606 - Lab 3"
 author: "Joshua Sturm"
 date: "09/13/2017"
 output:
+  pdf_document:
+    keep_tex: yes
   html_document:
     code_folding: show
     css: ./lab.css
@@ -11,8 +13,6 @@ output:
     theme: cerulean
     toc: yes
     toc_float: yes
-  pdf_document:
-    keep_tex: yes
 always_allow_html: yes
 ---
 

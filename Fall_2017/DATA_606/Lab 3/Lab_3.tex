@@ -143,13 +143,8 @@ were considered healthy young adults.
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{load}\NormalTok{(}\KeywordTok{url}\NormalTok{(}\StringTok{"http://www.openintro.org/stat/data/bdims.RData"}\NormalTok{))}
-\KeywordTok{data}\NormalTok{(bdims.RData)}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Warning in data(bdims.RData): data set 'bdims.RData' not found
-\end{verbatim}
 
 Let's take a quick peek at the first few rows of the data.
 
@@ -201,6 +196,8 @@ another with only women.
 \end{Highlighting}
 \end{Shaded}
 
+\subsection{Exercise 1}\label{exercise-1}
+
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
@@ -208,6 +205,60 @@ another with only women.
   Make a histogram of men's heights and a histogram of women's heights.
   How would you compare the various aspects of the two distributions?
 \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{hist}\NormalTok{(mdims$hgt, }\DataTypeTok{xlab =} \StringTok{"Men's height"}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(fdims$hgt, }\DataTypeTok{xlab =} \StringTok{"Women's height"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab_3_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{mean}\NormalTok{(mdims$hgt)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 177.7453
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sd}\NormalTok{(mdims$hgt)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 7.183629
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{mean}\NormalTok{(fdims$hgt)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 164.8723
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sd}\NormalTok{(fdims$hgt)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 6.544602
+\end{verbatim}
+
+\begin{verbatim}
+They both closely resemble the normal disribution. The men's heights are centered around a mean of 178, with a standard deviation of 7.2. The women's heights are centered around a mean of 165, with a standard deviation of 6.5.
+\end{verbatim}
 
 \subsection{The normal distribution}\label{the-normal-distribution}
 
@@ -252,7 +303,7 @@ density histogram created by the commands below.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{DATA_606_-_Lab_3_files/figure-latex/hist-height-1.pdf}
+\includegraphics{Lab_3_files/figure-latex/hist-height-1.pdf}
 
 After plotting the density histogram with the first command, we create
 the x- and y-coordinates for the normal curve. We chose the \texttt{x}
@@ -270,6 +321,8 @@ The top of the curve is cut off because the limits of the x- and y-axes
 are set to best fit the histogram. To adjust the y-axis you can add a
 third argument to the histogram function: \texttt{ylim\ =\ c(0,\ 0.06)}.
 
+\subsection{Exercise 2}\label{exercise-2}
+
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \setcounter{enumi}{1}
@@ -278,6 +331,26 @@ third argument to the histogram function: \texttt{ylim\ =\ c(0,\ 0.06)}.
   Based on the this plot, does it appear that the data follow a nearly
   normal distribution?
 \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{hist}\NormalTok{(mdims$hgt, }\DataTypeTok{probability =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{x <-}\StringTok{ }\DecValTok{140}\NormalTok{:}\DecValTok{210}
+\NormalTok{y <-}\StringTok{ }\KeywordTok{dnorm}\NormalTok{(}\DataTypeTok{x =} \NormalTok{x, }\DataTypeTok{mean =} \KeywordTok{mean}\NormalTok{(mdims$hgt), }\DataTypeTok{sd =} \KeywordTok{sd}\NormalTok{(mdims$hgt))}
+\KeywordTok{lines}\NormalTok{(}\DataTypeTok{x =} \NormalTok{x, }\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{col =} \StringTok{"blue"}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(fdims$hgt, }\DataTypeTok{probability =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{x <-}\StringTok{ }\DecValTok{140}\NormalTok{:}\DecValTok{190}
+\NormalTok{y <-}\StringTok{ }\KeywordTok{dnorm}\NormalTok{(}\DataTypeTok{x =} \NormalTok{x, }\DataTypeTok{mean =} \NormalTok{fhgtmean, }\DataTypeTok{sd =} \NormalTok{fhgtsd)}
+\KeywordTok{lines}\NormalTok{(}\DataTypeTok{x =} \NormalTok{x, }\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{col =} \StringTok{"purple"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab_3_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+\begin{verbatim}
+Yes, it is fair to say that both the men's and women's heights are nearly normal.
+\end{verbatim}
 
 \subsection{Evaluating the normal
 distribution}\label{evaluating-the-normal-distribution}
@@ -295,7 +368,7 @@ normal Q-Q plot for ``quantile-quantile''.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{DATA_606_-_Lab_3_files/figure-latex/qq-1.pdf}
+\includegraphics{Lab_3_files/figure-latex/qq-1.pdf}
 
 A data set that is nearly normal will result in a probability plot where
 the points closely follow the line. Any deviations from normality leads
@@ -323,6 +396,8 @@ from which the simulated sample will be generated. We can take a look at
 the shape of our simulated data set, \texttt{sim\_norm}, as well as its
 normal probability plot.
 
+\subsection{Exercise 3}\label{exercise-3}
+
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \setcounter{enumi}{2}
@@ -332,6 +407,22 @@ normal probability plot.
   points fall on the line? How does this plot compare to the probability
   plot for the real data?
 \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{qqnorm}\NormalTok{(fdims$hgt, }\DataTypeTok{main =} \StringTok{"Women's heights"}\NormalTok{)}
+\KeywordTok{qqline}\NormalTok{(fdims$hgt)}
+\KeywordTok{qqnorm}\NormalTok{(sim_norm, }\DataTypeTok{main =} \StringTok{"Simulated normal"}\NormalTok{)}
+\KeywordTok{qqline}\NormalTok{(sim_norm)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab_3_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\begin{verbatim}
+Even in teh simulated plot, there are points that stray from the line. Both the simulated and actual data are similar enough to conclude that the actual data is nearly normal.
+\end{verbatim}
 
 Even better than comparing the original plot to a single plot generated
 from a normal distribution is to compare it to many more plots using the
@@ -344,72 +435,72 @@ plot window.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{DATA_606_-_Lab_3_files/figure-latex/qqnormsim-1.pdf}
+\includegraphics{Lab_3_files/figure-latex/qqnormsim-1.pdf}
+
+\subsection{Exercise 4}\label{exercise-4}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \setcounter{enumi}{3}
+\tightlist
 \item
   Does the normal probability plot for \texttt{fdims\$hgt} look similar
   to the plots created for the simulated data? That is, do plots provide
   evidence that the female heights are nearly normal?
+\end{enumerate}
+
+\begin{verbatim}
+Yes, it is fair to conclude that the actual data is fairly normal. For the most part, both normal probability plots are similar, with some of the actual data even more closely resembling the normal distribution.
+\end{verbatim}
+
+\subsection{Exercise 5}\label{exercise-5}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
 \item
   Using the same technique, determine whether or not female weights
   appear to come from a normal distribution.
 \end{enumerate}
 
-\subsection{Normal probabilities}\label{normal-probabilities}
-
-Okay, so now you have a slew of tools to judge whether or not a variable
-is normally distributed. Why should we care?
-
-It turns out that statisticians know a lot about the normal
-distribution. Once we decide that a random variable is approximately
-normal, we can answer all sorts of questions about that variable related
-to probability. Take, for example, the question of, ``What is the
-probability that a randomly chosen young adult female is taller than 6
-feet (about 182 cm)?'' (The study that published this data set is clear
-to point out that the sample was not random and therefore inference to a
-general population is not suggested. We do so here only as an exercise.)
-
-If we assume that female heights are normally distributed (a very close
-approximation is also okay), we can find this probability by calculating
-a Z score and consulting a Z table (also called a normal probability
-table). In R, this is done in one step with the function \texttt{pnorm}.
-
 \begin{Shaded}
 \begin{Highlighting}[]
-\DecValTok{1} \NormalTok{-}\StringTok{ }\KeywordTok{pnorm}\NormalTok{(}\DataTypeTok{q =} \DecValTok{182}\NormalTok{, }\DataTypeTok{mean =} \NormalTok{fhgtmean, }\DataTypeTok{sd =} \NormalTok{fhgtsd)}
+\KeywordTok{hist}\NormalTok{(fdims$wgt, }\DataTypeTok{probability =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{x <-}\StringTok{ }\DecValTok{35}\NormalTok{:}\DecValTok{110}
+\NormalTok{y <-}\StringTok{ }\KeywordTok{dnorm}\NormalTok{(}\DataTypeTok{x =} \NormalTok{x, }\DataTypeTok{mean =} \KeywordTok{mean}\NormalTok{(fdims$wgt), }\DataTypeTok{sd =} \KeywordTok{sd}\NormalTok{(fdims$wgt))}
+\KeywordTok{lines}\NormalTok{(}\DataTypeTok{x =} \NormalTok{x, }\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{col =} \StringTok{"purple"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-## [1] 0.004434387
-\end{verbatim}
-
-Note that the function \texttt{pnorm} gives the area under the normal
-curve below a given value, \texttt{q}, with a given mean and standard
-deviation. Since we're interested in the probability that someone is
-taller than 182 cm, we have to take one minus that probability.
-
-Assuming a normal distribution has allowed us to calculate a theoretical
-probability. If we want to calculate the probability empirically, we
-simply need to determine how many observations fall above 182 then
-divide this number by the total sample size.
+\includegraphics{Lab_3_files/figure-latex/unnamed-chunk-4-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{sum}\NormalTok{(fdims$hgt >}\StringTok{ }\DecValTok{182}\NormalTok{) /}\StringTok{ }\KeywordTok{length}\NormalTok{(fdims$hgt)}
+\NormalTok{sim_norm2 <-}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DataTypeTok{n =} \KeywordTok{length}\NormalTok{(fdims$wgt), }\DataTypeTok{mean =} \KeywordTok{mean}\NormalTok{(fdims$wgt), }\DataTypeTok{sd =} \KeywordTok{sd}\NormalTok{(fdims$wgt))}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{qqnorm}\NormalTok{(fdims$wgt, }\DataTypeTok{main =} \StringTok{"Women's weights"}\NormalTok{)}
+\KeywordTok{qqline}\NormalTok{(fdims$wgt)}
+\KeywordTok{qqnorm}\NormalTok{(sim_norm2, }\DataTypeTok{main =} \StringTok{"Simulated weights"}\NormalTok{)}
+\KeywordTok{qqline}\NormalTok{(sim_norm2)}
 \end{Highlighting}
 \end{Shaded}
 
+\includegraphics{Lab_3_files/figure-latex/unnamed-chunk-4-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qqnormsim}\NormalTok{(fdims$wgt)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab_3_files/figure-latex/unnamed-chunk-4-3.pdf}
+
 \begin{verbatim}
-## [1] 0.003846154
+Based on these graphs/plots, it seems that the weights are much more skewed than the heights, and would seem to not be normally distributed.
 \end{verbatim}
 
-Although the probabilities are not exactly the same, they are reasonably
-close. The closer that your distribution is to being normal, the more
-accurate the theoretical probabilities will be.
+\subsection{Exercise 6}\label{exercise-6}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -418,17 +509,95 @@ accurate the theoretical probabilities will be.
 \item
   Write out two probability questions that you would like to answer; one
   regarding female heights and one regarding female weights. Calculate
-  the those probabilities using both the theoretical normal distribution
-  as well as the empirical distribution (four probabilities in all).
-  Which variable, height or weight, had a closer agreement between the
-  two methods?
+  those probabilities using both the theoretical normal distribution as
+  well as the empirical distribution (four probabilities in all). Which
+  variable, height or weight, had a closer agreement between the two
+  methods?
 \end{enumerate}
+
+Question 1: What is the probability that a female stands between 175 and
+187?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Theoretical: }
+\NormalTok{theor <-}\StringTok{ }\KeywordTok{pnorm}\NormalTok{(}\DataTypeTok{q =} \DecValTok{187}\NormalTok{, }\DataTypeTok{mean =} \KeywordTok{mean}\NormalTok{(fdims$hgt), }\DataTypeTok{sd =} \KeywordTok{sd}\NormalTok{(fdims$hgt)) -}\StringTok{ }\KeywordTok{pnorm}\NormalTok{(}\DataTypeTok{q =} \DecValTok{175}\NormalTok{, }\DataTypeTok{mean =} \KeywordTok{mean}\NormalTok{(fdims$hgt), }\DataTypeTok{sd =} \KeywordTok{sd}\NormalTok{(fdims$hgt))}
+\NormalTok{theor}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.06051179
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Empirical:}
+\NormalTok{emp <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(fdims$hgt >=}\StringTok{ }\DecValTok{175} \NormalTok{&}\StringTok{ }\NormalTok{fdims$hgt <=}\StringTok{ }\DecValTok{185}\NormalTok{) /}\StringTok{ }\KeywordTok{length}\NormalTok{(fdims$hgt)}
+\NormalTok{emp}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.08461538
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{abs}\NormalTok{(theor -}\StringTok{ }\NormalTok{emp)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.02410359
+\end{verbatim}
+
+Question 2: What is the probability that a female weighed over 60?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Theoretical:}
+\NormalTok{theor <-}\StringTok{ }\DecValTok{1}\NormalTok{-}\KeywordTok{pnorm}\NormalTok{(}\DataTypeTok{q =} \DecValTok{60}\NormalTok{, }\DataTypeTok{mean =} \KeywordTok{mean}\NormalTok{(fdims$wgt), }\DataTypeTok{sd =} \KeywordTok{sd}\NormalTok{(fdims$wgt))}
+\NormalTok{theor}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.524893
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Empirical:}
+\NormalTok{emp <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(fdims$wgt >}\StringTok{ }\DecValTok{60}\NormalTok{) /}\StringTok{ }\KeywordTok{length}\NormalTok{(fdims$wgt)}
+\NormalTok{emp}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.4384615
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{abs}\NormalTok{(theor -}\StringTok{ }\NormalTok{emp)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.08643143
+\end{verbatim}
+
+\begin{verbatim}
+The height variable was closer between the two methods, which makes sense, since it is (almost) normally distributed.
+\end{verbatim}
 
 \begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
 
 \subsection{On Your Own}\label{on-your-own}
 
 \begin{itemize}
+\tightlist
 \item
   Now let's consider some of the other variables in the body dimensions
   data set. Using the figures at the end of the exercises, match the
@@ -436,42 +605,89 @@ accurate the theoretical probabilities will be.
   been standardized (first subtract the mean, then divide by the
   standard deviation), so the units won't be of any help. If you are
   uncertain based on these figures, generate the plots in R to check.
+\end{itemize}
 
+\begin{figure}[htbp]
+\centering
+\includegraphics{more/histQQmatch.png}
+\caption{}
+\end{figure}
+
+\subsection{Exercise 7}\label{exercise-7}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{6}
+\item
   \textbf{a.} The histogram for female biiliac (pelvic) diameter
-  (\texttt{bii.di}) belongs to normal probability plot letter \_\_\_\_.
+  (\texttt{bii.di}) belongs to normal probability plot letter
+  \textbf{B}.
 
   \textbf{b.} The histogram for female elbow diameter (\texttt{elb.di})
-  belongs to normal probability plot letter \_\_\_\_.
+  belongs to normal probability plot letter \textbf{C}.
 
   \textbf{c.} The histogram for general age (\texttt{age}) belongs to
-  normal probability plot letter \_\_\_\_.
+  normal probability plot letter \textbf{D}.
 
   \textbf{d.} The histogram for female chest depth (\texttt{che.de})
-  belongs to normal probability plot letter \_\_\_\_.
+  belongs to normal probability plot letter \textbf{A}.
+\end{enumerate}
+
+\begin{verbatim}
+We can match the mean in the histograms to the y-axis in the normal plot.
+\end{verbatim}
+
+\subsection{Exercise 8}\label{exercise-8}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{7}
+\tightlist
 \item
   Note that normal probability plots C and D have a slight stepwise
   pattern.\\
   Why do you think this is the case?
+\end{enumerate}
+
+\begin{verbatim}
+It's likely that these values (elbow diameter and age) were rounded, and reported as discrete variables.
+If they were continuous, they'd more resemble a normal curve.
+\end{verbatim}
+
+\subsection{Exercise 9}\label{exercise-9}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
 \item
   As you can see, normal probability plots can be used both to assess
   normality and visualize skewness. Make a normal probability plot for
   female knee diameter (\texttt{kne.di}). Based on this normal
   probability plot, is this variable left skewed, symmetric, or right
   skewed? Use a histogram to confirm your findings.
-\end{itemize}
+\end{enumerate}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics{more/histQQmatch.png}
-\caption{histQQmatch}
-\end{figure}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qqnorm}\NormalTok{(fdims$kne.di, }\DataTypeTok{main =} \StringTok{"Female knee diameter"}\NormalTok{)}
+\KeywordTok{qqline}\NormalTok{(fdims$kne.di)}
+\end{Highlighting}
+\end{Shaded}
 
-\hypertarget{license}{}
-This is a product of OpenIntro that is released under a
-\href{http://creativecommons.org/licenses/by-sa/3.0}{Creative Commons
-Attribution-ShareAlike 3.0 Unported}. This lab was adapted for OpenIntro
-by Andrew Bray and Mine Çetinkaya-Rundel from a lab written by Mark
-Hansen of UCLA Statistics.
+\includegraphics{Lab_3_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{hist}\NormalTok{(fdims$kne.di)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab_3_files/figure-latex/unnamed-chunk-7-2.pdf}
+
+\begin{verbatim}
+The normal plot has a stepwise pattern with many dots straying on the right tail, suggesting the data is right skewed, and not a good fit for the normal approximation. This is verified in the histogram.
+\end{verbatim}
 
 
 \end{document}
