@@ -3,13 +3,80 @@ title: "DATA 607 - Assignment 5"
 author: "Joshua Sturm"
 date: "September 24, 2017"
 output:
-  pdf_document:
-    keep_tex: yes
   html_document:
     code_folding: show
     toc: yes
     toc_float: yes
+  pdf_document:
+    keep_tex: yes
 always_allow_html: yes
 ---
 
-\\includegraphics[width=0.5]{https://github.com/JoshuaSturm/CUNY_MSDS/blob/master/Fall_2017/DATA_607/DATA_607_Homework_5/Assignment%20Tidying%20and%20Transforming%20Data.pdf}
+# Task:
+
+[Link to instructions](https://github.com/JoshuaSturm/CUNY_MSDA/blob/Public/Fall_2017/DATA_607/DATA_607_Homework_5/Assignment%20Tidying%20and%20Transforming%20Data.pdf)
+
+### Import Necessary Libraries
+
+```{r}
+library(dplyr, warn.conflicts = F)
+library(tidyr)
+library(ggplot2)
+library(reshape2)
+```
+
+### Import the .csv file
+
+```{r}
+# Rename the first two columns
+# After researching how to rename the missing rows, I came across the 'fill' function. I couldn't get it to work, until I tried replacing the empty cells with NAs. This did the trick! :)
+
+flights_raw <- read.csv("https://raw.githubusercontent.com/JoshuaSturm/CUNY_MSDA/Public/Fall_2017/DATA_607/DATA_607_Homework_5/flights.csv", na.strings ="") %>%
+  rename(Airline = X, Arrived = X.1) %>%
+  fill(Airline) %>%
+  na.omit()
+tbl_df(flights_raw)
+```
+
+### Tidy the table
+
+```{r}
+# The table is now in wide format
+
+flights <- flights_raw %>%
+  gather("City", "Number", 3:7) %>%
+  spread("Arrived", "Number", 3:7) %>%
+  rename(Delayed = delayed, On_time = 'on time') %>%
+  arrange(Airline)
+  
+flights[,c(1,2,4,3)]
+```
+
+### Add columns
+
+```{r}
+# Using the existing data, add column for total flights to that city, as well as percentage that were on time
+flights %>%
+  group_by(Airline, City) %>%
+  mutate(Total = sum(On_time, Delayed), Pct_on_time = On_time / sum(On_time, Delayed))
+```
+
+### Analyze the data
+
+#### Comparison of arrival stats for each airline
+ 
+```{r}
+# Using ggplot, I charted the arrival status for each airline, by city
+
+alaska_ttl <- flights %>%
+  melt() %>%
+  ggplot(aes(x = City, y = value, fill = variable)) +
+   geom_bar(stat = 'identity') +
+   geom_text(size = 3, aes(label = value),  position = position_stack(vjust = 0.5)) +
+   labs(y = "flights") +
+   facet_grid(~ Airline)
+   
+alaska_ttl
+```
+
+
