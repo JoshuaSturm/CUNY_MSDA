@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Joshua Sturm" />
+
+
+<title>DATA 607 - Project 2</title>
+
+<script src="DATA_607_Project_2_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="DATA_607_Project_2_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="DATA_607_Project_2_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="DATA_607_Project_2_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="DATA_607_Project_2_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="DATA_607_Project_2_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="DATA_607_Project_2_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="DATA_607_Project_2_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="DATA_607_Project_2_files/navigation-1.1/tabsets.js"></script>
+<script src="DATA_607_Project_2_files/navigation-1.1/codefolding.js"></script>
+<link href="DATA_607_Project_2_files/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="DATA_607_Project_2_files/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">DATA 607 - Project 2</h1>
+<h4 class="author"><em>Joshua Sturm</em></h4>
+<h4 class="date"><em>October 2, 2017</em></h4>
+
+</div>
+
+
+<div id="shark-attacks" class="section level1">
+<h1>Shark attacks</h1>
+<div id="import-the-data-file" class="section level2">
+<h2>Import the data file</h2>
+<pre class="r"><code>shark_raw &lt;- read.csv(&quot;https://raw.githubusercontent.com/JoshuaSturm/CUNY_MSDS/master/Fall_2017/DATA_607/Project%202/GSAF5.csv?token=AVfc-3es6ZDsYSroJ_AcAoiZCAvI9LQHks5Z3CmgwA%3D%3D&quot;, na.strings=&quot; &quot;, stringsAsFactors = F)
+
+# add libraries
+options(warn=-1)
+library(tidyr)
+library(ggplot2)
+suppressPackageStartupMessages(library(googleVis, warn.conflicts = F))</code></pre>
+<pre><code>## Creating a generic function for &#39;toJSON&#39; from package &#39;jsonlite&#39; in package &#39;googleVis&#39;</code></pre>
+<pre class="r"><code>library(dplyr, warn.conflicts = F)
+options(gvis.plot.tag = &quot;chart&quot;)</code></pre>
+</div>
+<div id="begin-to-tidy-the-data" class="section level2">
+<h2>Begin to tidy the data</h2>
+<pre class="r"><code># Remove duplicate column &#39;year&#39;, break up the date column, remove irrelevant columns, and filter weird values
+
+shark &lt;- shark_raw %&gt;%
+  data.frame() %&gt;%
+  select(-1, -3, -(16:24)) %&gt;%
+  separate(Date, into = c(&quot;Day&quot;, &quot;Month&quot;, &quot;Year&quot;), sep = &quot;-&quot;)
+
+shark &lt;- subset(shark, Sex %in% c(&quot;M&quot;, &quot;F&quot;))
+shark &lt;- subset(shark, Type %in% c(&quot;Boat&quot;, &quot;Boating&quot;, &quot;Invalid&quot;, &quot;Provoked&quot;, &quot;Sea Disaster&quot;, &quot;Unprovoked&quot;))
+
+# Remove all fully N/A or blank rows  
+
+shark &lt;- shark[!apply(is.na(shark) | shark == &quot;&quot;, 1, all),]
+
+# These next 2 loops will check the first two columns for a regex match. If day isn&#39;t a digit, move it over to month. Likewise with month to year.
+
+for (i in 1:(length(shark$Day)))
+  {
+    pat &lt;- &quot;\\D+&quot;
+    if (grepl(pat, shark[i,&quot;Day&quot;]) == 1)
+      {
+        shark[i,&quot;Month&quot;] &lt;- shark[i,&quot;Day&quot;]
+        shark[i,&quot;Day&quot;] &lt;- &quot;NA&quot;
+      }
+  }
+for (i in 1:(length(shark$Month)))
+  {
+    pat &lt;- &quot;\\d+&quot;
+    if (grepl(pat, shark[i,&quot;Month&quot;]) == 1)
+      {
+        shark[i,&quot;Year&quot;] &lt;- shark[i,&quot;Month&quot;]
+        shark[i,&quot;Month&quot;] &lt;- &quot;NA&quot;
+      }
+  }</code></pre>
+</div>
+<div id="analyze-the-data" class="section level2">
+<h2>Analyze the data</h2>
+<p>The data is clean enough to perform some analysis on.</p>
+<div id="attacks-since-20th-century-by-gender" class="section level3">
+<h3>Attacks since 20th century, by gender</h3>
+<pre class="r"><code># Filter only 4-digit values in the year column, and only pick years &gt; 1900
+
+shark &lt;- shark[grepl(&quot;^\\d{4}$&quot;, shark$Year),]
+shark &lt;- shark[shark$Year &gt; 1900,]
+ggplot(shark, aes(Year, fill = Sex), order = T) + geom_bar(position = position_stack(reverse = TRUE)) + guides(fill = guide_legend(reverse = T)) + theme(axis.text.x  = element_text(angle=90, vjust=0.5, size=5))</code></pre>
+<p><img src="DATA_607_Project_2_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="attack-type-by-gender" class="section level3">
+<h3>Attack type, by gender</h3>
+<pre class="r"><code>ggplot(shark, aes(Type, fill = Sex), order = T) + geom_bar(position = position_stack(reverse = TRUE)) + guides(fill = guide_legend(reverse = T))</code></pre>
+<p><img src="DATA_607_Project_2_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="most-dangerous-countries-by-number-of-attacks" class="section level3">
+<h3>10 most dangerous countries, by number of attacks</h3>
+<pre class="r"><code>byCountry &lt;- shark %&gt;%
+  group_by(Country) %&gt;%
+  tally() %&gt;%
+  top_n(10)</code></pre>
+<pre><code>## Selecting by n</code></pre>
+<pre class="r"><code>ggplot(byCountry, aes(x = reorder(Country, -n), y = n)) +
+  geom_bar(stat=&quot;identity&quot;) +
+  xlab(&quot;Country&quot;) +
+  ylab(&quot;Number of attacks&quot;) +
+  theme(axis.text.x  = element_text(angle=45, vjust=0.5, size=8)) +
+  geom_text(
+    aes(label = n, y = n + 20),
+    position = position_dodge(0.9),
+    vjust = 0
+  )</code></pre>
+<p><img src="DATA_607_Project_2_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="heatmap-of-attack-locations" class="section level3">
+<h3>Heatmap of attack locations</h3>
+<pre class="r"><code>countryList &lt;- shark_raw %&gt;%
+  group_by(Country) %&gt;%
+  tally() %&gt;%
+  distinct()
+
+# Rename / remove columns and duplicates
+
+countryList[201,1] &lt;- &quot;US&quot;
+countryList[207:208,1] &lt;- &quot;YEMEN&quot;
+countryList[c(2,148),1] &lt;- &quot;PHILIPPINES&quot;
+countryList[7:8,1] &lt;- &quot;ANDAMAN ISLANDS&quot; 
+countryList[36:37,1] &lt;- &quot;CEYLON&quot;
+countryList[54:56,1] &lt;- &quot;EGYPT&quot;
+countryList[62:63,1] &lt;- &quot;FIJI&quot;
+countryList[83:84,1] &lt;- &quot;INDIAN OCEAN&quot;
+countryList[86:87,1] &lt;- &quot;IRAN&quot;
+countryList[91:92,1] &lt;- &quot;ITALY&quot;
+countryList[113:114,1] &lt;- &quot;MEXICO&quot;
+countryList[128:129,1] &lt;- &quot;NICARAGUA&quot;
+countryList[131:132,1] &lt;- &quot;NORTH ATLANTIC OCEAN&quot;
+countryList[140:141,1] &lt;- &quot;PACIFIC OCEAN&quot;
+countryList[152:153,1] &lt;- &quot;RED SEA&quot;
+countryList[161:162,1] &lt;- &quot;SEYCHELLES&quot;
+countryList[163:165,1] &lt;- &quot;SIERRA LEONE&quot;
+countryList[168:169,1] &lt;- &quot;SOLOMON ISLANDS&quot;
+countryList[180:181,1] &lt;- &quot;ST. MARTIN&quot;
+countryList[182:183,1] &lt;- &quot;SUDAN&quot;
+countryList[197:198,1] &lt;- &quot;UNITED ARAB EMIRATES&quot;
+countryList[c(156,206),1] &lt;- &quot;SAMOA&quot;
+
+# Remove the (blank) first row, and combine duplicates
+
+countryList &lt;- countryList[-1,]
+countryList &lt;- aggregate(. ~  Country, data = countryList, sum)
+
+# Use the &#39;googleVis&#39; package to create a choropleth map based on number of attacks
+
+Geo = gvisGeoChart(countryList, locationvar=&quot;Country&quot;,
+                 colorvar=&quot;n&quot;,
+                 options=list(width=600, height=400, projection=&quot;kavrayskiy-vii&quot;))
+print(Geo, &#39;chart&#39;)</code></pre>
+<!-- GeoChart generated in R 3.4.1 by googleVis 0.6.2 package -->
+<!-- Sun Oct 08 21:40:42 2017 -->
+<!-- jsHeader -->
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataGeoChartID22e06da321a () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+" TONGA",
+3
+],
+[
+"ADMIRALTY ISLANDS",
+1
+],
+[
+"ALGERIA",
+1
+],
+[
+"AMERICAN SAMOA",
+3
+],
+[
+"ANDAMAN ISLANDS",
+2
+],
+[
+"ANGOLA",
+1
+],
+[
+"ANTIGUA",
+2
+],
+[
+"ARGENTINA",
+1
+],
+[
+"ARUBA",
+1
+],
+[
+"ASIA?",
+1
+],
+[
+"ATLANTIC OCEAN",
+17
+],
+[
+"AUSTRALIA",
+1308
+],
+[
+"AZORES",
+5
+],
+[
+"BAHAMAS",
+106
+],
+[
+"BAHREIN",
+1
+],
+[
+"BANGLADESH",
+1
+],
+[
+"BARBADOS",
+6
+],
+[
+"BAY OF BENGAL",
+1
+],
+[
+"BELIZE",
+3
+],
+[
+"BERMUDA",
+16
+],
+[
+"Between PORTUGAL & INDIA",
+1
+],
+[
+"BRAZIL",
+104
+],
+[
+"BRITISH ISLES",
+1
+],
+[
+"BRITISH NEW GUINEA",
+1
+],
+[
+"BRITISH VIRGIN ISLANDS",
+1
+],
+[
+"BRITISH WEST INDIES",
+1
+],
+[
+"BURMA",
+4
+],
+[
+"CANADA",
+11
+],
+[
+"CAPE VERDE",
+3
+],
+[
+"CARIBBEAN SEA",
+8
+],
+[
+"CAYMAN ISLANDS",
+2
+],
+[
+"CENTRAL PACIFIC",
+2
+],
+[
+"CEYLON",
+3
+],
+[
+"CHILE",
+8
+],
+[
+"CHINA",
+6
+],
+[
+"Coast of AFRICA",
+1
+],
+[
+"COLUMBIA",
+9
+],
+[
+"COMOROS",
+1
+],
+[
+"COOK ISLANDS",
+1
+],
+[
+"COSTA RICA",
+12
+],
+[
+"CRETE",
+2
+],
+[
+"CROATIA",
+34
+],
+[
+"CUBA",
+43
+],
+[
+"CURACAO",
+1
+],
+[
+"CYPRUS",
+1
+],
+[
+"DIEGO GARCIA",
+1
+],
+[
+"DJIBOUTI",
+1
+],
+[
+"DOMINICAN REPUBLIC",
+7
+],
+[
+"ECUADOR",
+8
+],
+[
+"EGYPT",
+41
+],
+[
+"EL SALVADOR",
+4
+],
+[
+"ENGLAND",
+21
+],
+[
+"EQUATORIAL GUINEA / CAMEROON",
+1
+],
+[
+"FALKLAND ISLANDS",
+1
+],
+[
+"FEDERATED STATES OF MICRONESIA",
+1
+],
+[
+"FIJI",
+65
+],
+[
+"FRANCE",
+13
+],
+[
+"FRENCH POLYNESIA",
+22
+],
+[
+"GABON",
+1
+],
+[
+"GEORGIA",
+1
+],
+[
+"GHANA",
+1
+],
+[
+"GRAND CAYMAN",
+1
+],
+[
+"GREECE",
+25
+],
+[
+"GREENLAND",
+1
+],
+[
+"GRENADA",
+4
+],
+[
+"GUAM",
+4
+],
+[
+"GUATEMALA",
+1
+],
+[
+"GUINEA",
+3
+],
+[
+"GULF OF ADEN",
+1
+],
+[
+"GUYANA",
+2
+],
+[
+"HAITI",
+3
+],
+[
+"HONDURAS",
+3
+],
+[
+"HONG KONG",
+24
+],
+[
+"ICELAND",
+2
+],
+[
+"INDIA",
+38
+],
+[
+"INDIAN OCEAN",
+8
+],
+[
+"INDONESIA",
+22
+],
+[
+"IRAN",
+30
+],
+[
+"IRAQ",
+12
+],
+[
+"IRELAND",
+1
+],
+[
+"ISRAEL",
+7
+],
+[
+"ITALY",
+72
+],
+[
+"JAMAICA",
+25
+],
+[
+"JAPAN",
+34
+],
+[
+"JAVA",
+1
+],
+[
+"JOHNSTON ISLAND",
+2
+],
+[
+"KENYA",
+10
+],
+[
+"KIRIBATI",
+6
+],
+[
+"KOREA",
+1
+],
+[
+"KUWAIT",
+1
+],
+[
+"LEBANON",
+3
+],
+[
+"LIBERIA",
+3
+],
+[
+"LIBYA",
+5
+],
+[
+"MADAGASCAR",
+8
+],
+[
+"MALAYSIA",
+4
+],
+[
+"MALDIVE ISLANDS",
+1
+],
+[
+"MALTA",
+5
+],
+[
+"MARSHALL ISLANDS",
+13
+],
+[
+"MARTINIQUE",
+1
+],
+[
+"MAURITIUS",
+9
+],
+[
+"MAYOTTE",
+1
+],
+[
+"MEDITERRANEAN SEA",
+2
+],
+[
+"MEXICO",
+87
+],
+[
+"MICRONESIA",
+3
+],
+[
+"MID-PACIFC OCEAN",
+1
+],
+[
+"MID ATLANTIC OCEAN",
+5
+],
+[
+"MONACO",
+1
+],
+[
+"MONTENEGRO",
+3
+],
+[
+"MOZAMBIQUE",
+45
+],
+[
+"NAMIBIA",
+2
+],
+[
+"NETHERLANDS ANTILLES",
+1
+],
+[
+"NEVIS",
+1
+],
+[
+"NEW BRITAIN",
+6
+],
+[
+"NEW CALEDONIA",
+51
+],
+[
+"NEW GUINEA",
+10
+],
+[
+"NEW ZEALAND",
+127
+],
+[
+"NICARAGUA",
+7
+],
+[
+"NIGERIA",
+4
+],
+[
+"NORTH ATLANTIC OCEAN",
+5
+],
+[
+"NORTH PACIFIC OCEAN",
+7
+],
+[
+"NORTH SEA",
+1
+],
+[
+"NORTHERN ARABIAN SEA",
+1
+],
+[
+"NORTHERN MARIANA ISLANDS",
+1
+],
+[
+"NORWAY",
+2
+],
+[
+"OCEAN",
+1
+],
+[
+"OKINAWA",
+6
+],
+[
+"PACIFIC OCEAN",
+19
+],
+[
+"PALAU",
+5
+],
+[
+"PALESTINIAN TERRITORIES",
+1
+],
+[
+"PANAMA",
+32
+],
+[
+"PAPUA NEW GUINEA",
+134
+],
+[
+"PARAGUAY",
+1
+],
+[
+"PERSIAN GULF",
+4
+],
+[
+"PHILIPPINES",
+60
+],
+[
+"PORTUGAL",
+3
+],
+[
+"PUERTO RICO",
+1
+],
+[
+"RED SEA",
+3
+],
+[
+"REUNION",
+60
+],
+[
+"RUSSIA",
+4
+],
+[
+"SAMOA",
+9
+],
+[
+"SAN DOMINGO",
+1
+],
+[
+"SAUDI ARABIA",
+5
+],
+[
+"SCOTLAND",
+8
+],
+[
+"SENEGAL",
+11
+],
+[
+"SEYCHELLES",
+8
+],
+[
+"SIERRA LEONE",
+10
+],
+[
+"SINGAPORE",
+6
+],
+[
+"SLOVENIA",
+1
+],
+[
+"SOLOMON ISLANDS",
+30
+],
+[
+"SOMALIA",
+6
+],
+[
+"SOUTH AFRICA",
+572
+],
+[
+"SOUTH ATLANTIC OCEAN",
+12
+],
+[
+"SOUTH CHINA SEA",
+1
+],
+[
+"SOUTH KOREA",
+8
+],
+[
+"SOUTH PACIFIC OCEAN",
+2
+],
+[
+"SOUTHWEST PACIFIC OCEAN",
+2
+],
+[
+"SPAIN",
+44
+],
+[
+"SRI LANKA",
+14
+],
+[
+"ST HELENA, British overseas territory",
+2
+],
+[
+"ST. MARTIN",
+2
+],
+[
+"SUDAN",
+5
+],
+[
+"SWEDEN",
+1
+],
+[
+"SYRIA",
+1
+],
+[
+"TAIWAN",
+9
+],
+[
+"TANZANIA",
+8
+],
+[
+"TASMAN SEA",
+1
+],
+[
+"THAILAND",
+6
+],
+[
+"THE BALKANS",
+1
+],
+[
+"TONGA",
+15
+],
+[
+"TRINIDAD & TOBAGO",
+3
+],
+[
+"TUNISIA",
+3
+],
+[
+"TURKEY",
+12
+],
+[
+"TURKS & CAICOS",
+5
+],
+[
+"TUVALU",
+1
+],
+[
+"UNITED ARAB EMIRATES",
+4
+],
+[
+"UNITED KINGDOM",
+11
+],
+[
+"URUGUAY",
+3
+],
+[
+"US",
+2196
+],
+[
+"VANUATU",
+14
+],
+[
+"VENEZUELA",
+11
+],
+[
+"VIETNAM",
+15
+],
+[
+"WEST INDIES",
+1
+],
+[
+"YEMEN",
+9
+] 
+];
+data.addColumn('string','Country');
+data.addColumn('number','n');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartGeoChartID22e06da321a() {
+var data = gvisDataGeoChartID22e06da321a();
+var options = {};
+options["width"] = 600;
+options["height"] = 400;
+options["projection"] = "kavrayskiy-vii";
+
+    var chart = new google.visualization.GeoChart(
+    document.getElementById('GeoChartID22e06da321a')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "geochart";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartGeoChartID22e06da321a);
+})();
+function displayChartGeoChartID22e06da321a() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+<!-- jsChart -->
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID22e06da321a"></script>
+<!-- divChart -->
+<div id="GeoChartID22e06da321a" style="width: 600; height: 400;">
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
