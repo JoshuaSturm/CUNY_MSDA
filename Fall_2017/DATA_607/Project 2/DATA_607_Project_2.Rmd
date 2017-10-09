@@ -7,7 +7,7 @@ output:
     code_folding: show
     toc: yes
     toc_float: yes
-    self_contained: false
+    smart: no
   pdf_document:
     keep_tex: yes
 always_allow_html: yes
@@ -152,6 +152,6 @@ countryList <- aggregate(. ~  Country, data = countryList, sum)
 
 Geo = gvisGeoChart(countryList, locationvar="Country",
                  colorvar="n",
-                 options=list(width=600, height=400, projection="kavrayskiy-vii"))
+                 options=list(width=800, height=600, projection="kavrayskiy-vii"))
 print(Geo, 'chart')
 ```
