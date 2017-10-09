@@ -17,7 +17,7 @@ always_allow_html: yes
 ## Import the data file
 
 ```{r}
-shark_raw <- read.csv("", na.strings=" ", stringsAsFactors = F)
+shark_raw <- read.csv("https://raw.githubusercontent.com/JoshuaSturm/CUNY_MSDA/Public/Fall_2017/DATA_607/Project%202/GSAF5.csv", na.strings=" ", stringsAsFactors = F)
 
 # add libraries
 options(warn=-1)
