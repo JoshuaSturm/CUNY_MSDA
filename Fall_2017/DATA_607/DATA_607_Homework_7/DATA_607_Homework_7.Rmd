@@ -1,0 +1,57 @@
+---
+title: "DATA 607 - Homework 7"
+author: "Joshua Sturm"
+date: "October 10, 2017"
+output:
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+    smart: no
+  pdf_document:
+    keep_tex: yes
+always_allow_html: yes
+---
+# Task
+
+Pick three of your favorite books on one of your favorite subjects. At least one of the books should have more
+than one author. For each book, include the title, authors, and two or three other attributes that you find
+interesting.
+
+Take the information that you've selected about these three books, and separately create three files which
+store the book's information in HTML (using an html table), XML, and JSON formats (e.g. "books.html",
+"books.xml", and "books.json"). To help you better understand the different file structures, I'd prefer that you
+create each of these files "by hand" unless you're already very comfortable with the file formats.
+
+Write R code, using your packages of choice, to load the information from each of the three sources into
+separate R data frames. Are the three data frames identical?
+
+
+## Approach
+
+I began by picking three books on the subject of mathematics. For each book, I include the Title, Author, ISBN#, Publisher, date of publication, and number of pages. 
+
+## Import the files from github
+
+```{r libraries}
+library(RCurl)
+library(XML)
+library(DT)
+```
+
+```{r getHtml}
+# https://stackoverflow.com/questions/1395528/scraping-html-tables-into-r-data-frames-using-the-xml-package/1401367#1401367
+
+bookHtml <- getURL("https://raw.githubusercontent.com/JoshuaSturm/CUNY_MSDS/master/Fall_2017/DATA_607/DATA_607_Homework_7/DATA_607_Homework_7_HTML.html?token=AVfc-72VfHxyfl89TM0FWLH_pYAS4mEYks5Z5j7MwA%3D%3D")
+  
+bookHtml <- htmlTreeParse(bookHtml, error=function(...){}, useInternalNodes = TRUE)
+
+
+tablehead <- xpathSApply(bookHtml, "//table/tr/th", xmlValue)
+results <- xpathSApply(bookHtml, "//table/tr/td", xmlValue)
+
+bookHtml <- as.data.frame(matrix(results, ncol = 6, byrow = T))
+names(bookHtml) <- tablehead
+
+datatable(bookHtml)
+```
