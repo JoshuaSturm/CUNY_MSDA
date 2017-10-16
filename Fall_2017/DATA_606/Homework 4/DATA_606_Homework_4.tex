@@ -1,0 +1,386 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={DATA 606 - Homework 4},
+            pdfauthor={Joshua Sturm},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{DATA 606 - Homework 4}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{Joshua Sturm}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  \date{10/15/2017}
+
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\subsection{4.4 Heights of adults}\label{heights-of-adults}
+
+Researchers studying anthropometry collected body girth measurements and
+skeletal diameter measurements, as well as age, weight, height and
+gender, for 507 physically active individuals. The histogram below shows
+the sample distribution of heights in centimeters.
+
+\subsubsection{(a)}\label{a}
+
+What is the point estimate for the average height of active individuals?
+What about the median?
+
+\paragraph{Solution}\label{solution}
+
+The point estimate for the average is the mean: 171.1. Similarly, the
+point estimate for the median would be 170.3.
+
+\subsubsection{(b)}\label{b}
+
+What is the point estimate for the standard deviation of the heights of
+active individuals? What about the IQR?
+
+\paragraph{Solution}\label{solution-1}
+
+The point estimate for the standard deviation is 9.4. The IQR is Q3 -
+Q1: 177.8 - 163.8 = 14.
+
+\subsubsection{(c)}\label{c}
+
+Is a person who is 1m 80cm (180 cm) tall considered unusually tall? And
+is a person who is 1m 55cm (155cm) considered unusually short? Explain
+your reasoning.
+
+\paragraph{Solution}\label{solution-2}
+
+They are both unusual in that they are above the third quartile and
+below the first quartile, respectively.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n <-}\StringTok{ }\DecValTok{507}
+\NormalTok{mean <-}\StringTok{ }\FloatTok{171.1}
+\NormalTok{sd <-}\StringTok{ }\FloatTok{9.4}
+\NormalTok{shorter <-}\StringTok{ }\DecValTok{155}
+\NormalTok{taller <-}\StringTok{ }\DecValTok{180}
+\CommentTok{# Calculate z-scores:}
+\NormalTok{z_shorter <-}\StringTok{ }\NormalTok{(shorter }\OperatorTok{-}\StringTok{ }\NormalTok{mean) }\OperatorTok{/}\StringTok{ }\NormalTok{sd}
+\NormalTok{z_taller <-}\StringTok{ }\NormalTok{(taller }\OperatorTok{-}\StringTok{ }\NormalTok{mean) }\OperatorTok{/}\StringTok{ }\NormalTok{sd}
+\NormalTok{z_shorter}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -1.712766
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{z_taller}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.9468085
+\end{verbatim}
+
+Looking at the z-scores, though, the person with a height of 155cm is
+more unusual, since they are considerably farther from the mean.
+
+\subsubsection{(d)}\label{d}
+
+The researchers take another random sample of physically active
+individuals. Would you expect the mean and the standard deviation of
+this new sample to be the ones given above? Explain your reasoning.
+
+\paragraph{Solution}\label{solution-3}
+
+I would expect the mean and sd to be similar but different from the
+first sample.
+
+\subsubsection{(e)}\label{e}
+
+The sample means obtained are point estimates for the mean height of all
+active individuals, if the sample of individuals is equivalent to a
+simple random sample. What measure do we use to quantify the variability
+of such an estimate (Hint: recall that
+\(SD_\bar x = \frac{\sigma}{\sqrt{n}}\))? Compute this quantity using
+the data from the original sample under the condition that the data are
+a simple random sample.
+
+\paragraph{Solution}\label{solution-4}
+
+We can use the Standard Error: \(SE = \frac{\sigma}{\sqrt{n}}\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{SE <-}\StringTok{ }\NormalTok{sd }\OperatorTok{/}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(n)}
+\NormalTok{SE}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.4174687
+\end{verbatim}
+
+\subsection{4.14 Thanksgiving spending, Part
+I.}\label{thanksgiving-spending-part-i.}
+
+The 2009 holiday retail season, which kicked off on November 27, 2009
+(the day after Thanksgiving), had been marked by somewhat lower
+self-reported consumer spending than was seen during the comparable
+period in 2008. To get an estimate of consumer spending, 436 randomly
+sampled American adults were surveyed. Daily consumer spending for the
+six-day period after Thanksgiving, spanning the Black Friday weekend and
+Cyber Monday, averaged \$84.71. A 95\% confidence interval based on this
+sample is (\$80.31, \$89.11). Determine whether the following statements
+are true or false, and explain your reasoning.
+
+\subsubsection{(a)}\label{a-1}
+
+We are 95\% confident that the average spending of these 436 American
+adults is between \$80.31 and \$89.11.
+
+\paragraph{Solution}\label{solution-5}
+
+\textbf{False.} The average spent in this sample is \$84.71. We are 95\%
+confident that the average for the entire \emph{population} is between
+\$80.31 and \$89.11.
+
+\subsubsection{(b)}\label{b-1}
+
+This confidence interval is not valid since the distribution of spending
+in the sample is right skewed.
+
+\paragraph{Solution}\label{solution-6}
+
+\textbf{False.} So long as the sample is larger than 30, it's valid, and
+the skew should not matter.
+
+\subsubsection{(c)}\label{c-1}
+
+95\% of random samples have a sample mean between \$80.31 and \$89.11.
+
+\paragraph{Solution}\label{solution-7}
+
+\textbf{False.} This confidence interval provides us with an idea of
+where the population mean is. A sample can differ from this, since the
+confidence interval is based on the mean and sd, which varies between
+samples.
+
+\subsubsection{(d)}\label{d-1}
+
+We are 95\% confident that the average spending of all American adults
+is between \$80.31 and \$89.11.
+
+\paragraph{Solution}\label{solution-8}
+
+\textbf{True.} This is the idea behind the confidence interval - to find
+the population mean.
+
+\subsubsection{(e)}\label{e-1}
+
+A 90\% confidence interval would be narrower than the 95\% confidence
+interval since we donât need to be as sure about our estimate.
+
+\paragraph{Solution}\label{solution-9}
+
+\textbf{True.} If we're not measuring as precisely, the interval will be
+smaller, and less accurate.
+
+\subsubsection{(f)}\label{f}
+
+In order to decrease the margin of error of a 95\% confidence interval
+to a third of what it is now, we would need to use a sample 3 times
+larger.
+
+\paragraph{Solution}\label{solution-10}
+
+\textbf{False.} The formula for the margin of error is:
+\(MOE = z* \times SE\). If we want \(\frac{1}{3}\times SE\), we get
+\$\frac{\sigma}{\sqrt(3^2 * n)}, so we'd have to use a sample 9 times
+larger.
+
+\subsubsection{(g)}\label{g}
+
+The margin of error is 4.4.
+
+\paragraph{Solution}\label{solution-11}
+
+\textbf{True.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{confl <-}\StringTok{ }\FloatTok{80.31}
+\NormalTok{confu <-}\StringTok{ }\FloatTok{89.11}
+\NormalTok{moe <-}\StringTok{ }\NormalTok{(confu }\OperatorTok{-}\StringTok{ }\NormalTok{confl) }\OperatorTok{/}\StringTok{ }\DecValTok{2}
+\NormalTok{moe}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4.4
+\end{verbatim}
+
+\subsection{4.24 Gifted children, Part
+I.}\label{gifted-children-part-i.}
+
+Researchers investigating characteristics of gifted children collected
+data from schools in a large city on a random sample of thirty-six
+children who were identified as gifted children soon after they reached
+the age of four. The following histogram shows the distribution of the
+ages (in months) at which these children first counted to 10
+successfully. Also provided are some sample statistics.
+
+\subsubsection{(a)}\label{a-2}
+
+Are conditions for inference satisfied?
+
+\paragraph{Solution}\label{solution-12}
+
+I believe so. Since the sample is from a large pool (school children in
+a large city), we can assume they're independent. Furthermore, we have a
+sample size of 36, so \(n = 36 \geq 30\). Lastly, there doesn't appear
+to be any strong skew in the histogram plot.
+
+\subsubsection{(b)}\label{b-2}
+
+Suppose you read online that children first count to 10 successfully
+when they are 32 months old, on average. Perform a hypothesis test to
+evaluate if these data provide convincing evidence that the average age
+at which gifted children fist count to 10 successfully is less than the
+general average of 32 months. Use a significance level of 0.10.
+
+\paragraph{Solution}\label{solution-13}
+
+Null hypothesis \(H_0: \mu = 32\) months.\\
+Alternate hypothesis \(H_A: \mu < 32\) months.\\
+\(\alpha = 0.10\).\\
+Since we're only interested if it's less than the average, it's a
+one-sided hypothesis test.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n <-}\StringTok{ }\DecValTok{36}
+\NormalTok{mean <-}\StringTok{ }\FloatTok{30.69}
+\NormalTok{sd <-}\StringTok{ }\FloatTok{4.31}
+\NormalTok{SE <-}\StringTok{ }\NormalTok{sd }\OperatorTok{/}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(n)}
+\NormalTok{z <-}\StringTok{ }\NormalTok{((mean }\OperatorTok{-}\StringTok{ }\DecValTok{32}\NormalTok{)}\OperatorTok{/}\NormalTok{SE)}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}

@@ -82,3 +82,6 @@ bookJson <- fromJSON(bookJson)
 bookJson <- as.data.frame(bookJson)
 datatable(bookJson)
 ```
+
+JSON seems to be the most efficient: it's the smallest file, and simple to parse.
+The only difference I noticed was the HTML parser had difficulty handling foreign characters, as can be seen in one of the author's names. Otherwise, the output of all three seems pretty similar.
