@@ -31,27 +31,54 @@ separate R data frames. Are the three data frames identical?
 
 I began by picking three books on the subject of mathematics. For each book, I include the Title, Author, ISBN#, Publisher, date of publication, and number of pages. 
 
-## Import the files from github
+## HTML
 
 ```{r libraries}
 library(RCurl)
 library(XML)
+library(jsonlite)
 library(DT)
 ```
 
 ```{r getHtml}
 # https://stackoverflow.com/questions/1395528/scraping-html-tables-into-r-data-frames-using-the-xml-package/1401367#1401367
 
-bookHtml <- getURL("https://raw.githubusercontent.com/JoshuaSturm/CUNY_MSDS/master/Fall_2017/DATA_607/DATA_607_Homework_7/DATA_607_Homework_7_HTML.html?token=AVfc-72VfHxyfl89TM0FWLH_pYAS4mEYks5Z5j7MwA%3D%3D")
+# Load the url
+bookHtml <- getURL("https://raw.githubusercontent.com/JoshuaSturm/CUNY_MSDA/Public/Fall_2017/DATA_607/DATA_607_Homework_7/DATA_607_Homework_7_HTML.html")
   
+# htmlTreeParse will get the html format, and the parameters will ignore errors
 bookHtml <- htmlTreeParse(bookHtml, error=function(...){}, useInternalNodes = TRUE)
 
+# From the parsed html, extract the header row first, and then the others
+header <- xpathSApply(bookHtml, "//table/tr/th", xmlValue)
+values <- xpathSApply(bookHtml, "//table/tr/td", xmlValue)
 
-tablehead <- xpathSApply(bookHtml, "//table/tr/th", xmlValue)
-results <- xpathSApply(bookHtml, "//table/tr/td", xmlValue)
+# Convert to dataframe, and set the header
+bookHtml <- as.data.frame(matrix(values, ncol = 6, byrow = T))
+names(bookHtml) <- header
 
-bookHtml <- as.data.frame(matrix(results, ncol = 6, byrow = T))
-names(bookHtml) <- tablehead
-
+# Formatted nicely using the DT package
 datatable(bookHtml)
+```
+
+## XML
+
+```{r getXml}
+# Load the url
+bookXml <- getURL("https://raw.githubusercontent.com/JoshuaSturm/CUNY_MSDA/Public/Fall_2017/DATA_607/DATA_607_Homework_7/DATA_607_Homework_7_XML.xml")
+
+# Convert the xml data to a dataframe, and display using the DT package
+bookXml <- xmlToDataFrame(bookXml)
+datatable(bookXml)
+```
+
+## JSON
+
+```{r getJSON}
+# Load the url
+bookJson <- getURL("https://raw.githubusercontent.com/JoshuaSturm/CUNY_MSDA/Public/Fall_2017/DATA_607/DATA_607_Homework_7/DATA_607_Homework_7_JSON.json")
+
+bookJson <- fromJSON(bookJson)
+bookJson <- as.data.frame(bookJson)
+datatable(bookJson)
 ```

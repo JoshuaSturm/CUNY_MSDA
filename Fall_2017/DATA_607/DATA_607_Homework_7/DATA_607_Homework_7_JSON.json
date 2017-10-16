@@ -1,28 +1,28 @@
 {
     "book": [
         {
-            "title": "Calculus (Eighth Edition)",
-            "author": "Ron Larson, Robert P. Hostetler, Bruce H. Edwards",
-            "isbn": "978-0618502981",
-            "publisher": "Brooks Cole",
-            "published": "January 11, 2005",
-            "pages": "1328"
+            "Title": "Calculus (Eighth Edition)",
+            "Author": "Ron Larson, Robert P. Hostetler, Bruce H. Edwards",
+            "ISBN-13": "978-0618502981",
+            "Publisher": "Brooks Cole",
+            "Published": "January 11, 2005",
+            "Pages": "1328"
         },
         {
-            "title": "A First Course in Probability (8th Edition)",
-            "author": "Sheldon Ross",
-            "isbn": "978-0136033134",
-            "publisher": "Pearson Prentice Hall",
-            "published": "January 7, 2009",
-            "pages": "552"
+            "Title": "A First Course in Probability (8th Edition)",
+            "Author": "Sheldon Ross",
+            "ISBN-13": "978-0136033134",
+            "Publisher": "Pearson Prentice Hall",
+            "Published": "January 7, 2009",
+            "Pages": "552"
         },
         {
-            "title": "Mathematics for Finance: An Introduction to Financial Engineering (Second Edition)",
-            "author": "Marek Capiński, Tomasz Zastawniak",
-            "isbn": "978-0857290816",
-            "publisher": "Springer",
-            "published": "November 25, 2010",
-            "pages": "336"
+            "Title": "Mathematics for Finance: An Introduction to Financial Engineering (Second Edition)",
+            "Author": "Marek Capiński, Tomasz Zastawniak",
+            "ISBN-13": "978-0857290816",
+            "Publisher": "Springer",
+            "Published": "November 25, 2010",
+            "Pages": "336"
         }
     ]
 }

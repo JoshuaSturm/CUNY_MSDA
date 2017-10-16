@@ -3656,28 +3656,55 @@ div.tocify {
 <h2>Approach</h2>
 <p>I began by picking three books on the subject of mathematics. For each book, I include the Title, Author, ISBN#, Publisher, date of publication, and number of pages.</p>
 </section>
-<section id="import-the-files-from-github" class="level2">
-<h2>Import the files from github</h2>
+<section id="html" class="level2">
+<h2>HTML</h2>
 <pre class="r"><code>library(RCurl)</code></pre>
 <pre><code>## Loading required package: bitops</code></pre>
 <pre class="r"><code>library(XML)
+library(jsonlite)
 library(DT)</code></pre>
 <pre class="r"><code># https://stackoverflow.com/questions/1395528/scraping-html-tables-into-r-data-frames-using-the-xml-package/1401367#1401367
 
-bookHtml &lt;- getURL(&quot;https://raw.githubusercontent.com/JoshuaSturm/CUNY_MSDS/master/Fall_2017/DATA_607/DATA_607_Homework_7/DATA_607_Homework_7_HTML.html?token=AVfc-72VfHxyfl89TM0FWLH_pYAS4mEYks5Z5j7MwA%3D%3D&quot;)
+# Load the url
+bookHtml &lt;- getURL(&quot;https://raw.githubusercontent.com/JoshuaSturm/CUNY_MSDA/Public/Fall_2017/DATA_607/DATA_607_Homework_7/DATA_607_Homework_7_HTML.html&quot;)
   
+# htmlTreeParse will get the html format, and the parameters will ignore errors
 bookHtml &lt;- htmlTreeParse(bookHtml, error=function(...){}, useInternalNodes = TRUE)
 
+# From the parsed html, extract the header row first, and then the others
+header &lt;- xpathSApply(bookHtml, &quot;//table/tr/th&quot;, xmlValue)
+values &lt;- xpathSApply(bookHtml, &quot;//table/tr/td&quot;, xmlValue)
 
-tablehead &lt;- xpathSApply(bookHtml, &quot;//table/tr/th&quot;, xmlValue)
-results &lt;- xpathSApply(bookHtml, &quot;//table/tr/td&quot;, xmlValue)
+# Convert to dataframe, and set the header
+bookHtml &lt;- as.data.frame(matrix(values, ncol = 6, byrow = T))
+names(bookHtml) &lt;- header
 
-bookHtml &lt;- as.data.frame(matrix(results, ncol = 6, byrow = T))
-names(bookHtml) &lt;- tablehead
-
+# Formatted nicely using the DT package
 datatable(bookHtml)</code></pre>
-<div id="htmlwidget-3463022fb84de10c27b2" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3463022fb84de10c27b2">{"x":{"filter":"none","data":[["1","2","3"],[" Calculus (Eighth Edition) "," A First Course in Probability (8th Edition) "," Mathematics for Finance: An Introduction to Financial Engineering (Second Edition) "],[" Ron Larson, Robert P. Hostetler, Bruce H. Edwards "," Sheldon Ross"," Marek CapiÃ…Â„ski, Tomasz Zastawniak "],[" 978-0618502981 "," 978-0136033134 "," 978-0857290816 "],[" Brooks Cole "," Pearson Prentice Hall "," Springer "],[" January 11, 2005 "," January 7, 2009 "," November 25, 2010 "],[" 1328 "," 552 "," 336 "]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th> Title <\/th>\n      <th> Author <\/th>\n      <th> ISBN-13 <\/th>\n      <th> Publisher <\/th>\n      <th> Published <\/th>\n      <th> Pages <\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"crosstalkOptions":{"key":null,"group":null},"order":[],"autoWidth":false,"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]},"selection":{"mode":"multiple","selected":null,"target":"row"}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-424c620e094d2f5eccd8" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-424c620e094d2f5eccd8">{"x":{"filter":"none","data":[["1","2","3"],[" Calculus (Eighth Edition) "," A First Course in Probability (8th Edition) "," Mathematics for Finance: An Introduction to Financial Engineering (Second Edition) "],[" Ron Larson, Robert P. Hostetler, Bruce H. Edwards "," Sheldon Ross"," Marek CapiÃ…Â„ski, Tomasz Zastawniak "],[" 978-0618502981 "," 978-0136033134 "," 978-0857290816 "],[" Brooks Cole "," Pearson Prentice Hall "," Springer "],[" January 11, 2005 "," January 7, 2009 "," November 25, 2010 "],[" 1328 "," 552 "," 336 "]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th> Title <\/th>\n      <th> Author <\/th>\n      <th> ISBN-13 <\/th>\n      <th> Publisher <\/th>\n      <th> Published <\/th>\n      <th> Pages <\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"crosstalkOptions":{"key":null,"group":null},"order":[],"autoWidth":false,"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]},"selection":{"mode":"multiple","selected":null,"target":"row"}},"evals":[],"jsHooks":[]}</script>
+</section>
+<section id="xml" class="level2">
+<h2>XML</h2>
+<pre class="r"><code># Load the url
+bookXml &lt;- getURL(&quot;https://raw.githubusercontent.com/JoshuaSturm/CUNY_MSDA/Public/Fall_2017/DATA_607/DATA_607_Homework_7/DATA_607_Homework_7_XML.xml&quot;)
+
+# Convert the xml data to a dataframe, and display using the DT package
+bookXml &lt;- xmlToDataFrame(bookXml)
+datatable(bookXml)</code></pre>
+<div id="htmlwidget-d05b090a09ccd4cd6574" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d05b090a09ccd4cd6574">{"x":{"filter":"none","data":[["1","2","3"],[" Calculus (Eighth Edition) "," A First Course in Probability (8th Edition) "," Mathematics for Finance: An Introduction to Financial Engineering (Second Edition) "],[" Ron Larson, Robert P. Hostetler, Bruce H. Edwards "," Sheldon Ross "," Marek Capinski, Tomasz Zastawniak "],[" 978-0618502981 "," 978-0136033134 "," 978-0857290816 "],[" Brooks Cole "," Pearson Prentice Hall "," Springer "],[" January 11, 2005 "," January 7, 2009 "," November 25, 2010 "],[" 1328 "," 552 "," 336 "]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>title<\/th>\n      <th>author<\/th>\n      <th>isbn<\/th>\n      <th>publisher<\/th>\n      <th>published<\/th>\n      <th>pages<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"crosstalkOptions":{"key":null,"group":null},"order":[],"autoWidth":false,"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]},"selection":{"mode":"multiple","selected":null,"target":"row"}},"evals":[],"jsHooks":[]}</script>
+</section>
+<section id="json" class="level2">
+<h2>JSON</h2>
+<pre class="r"><code># Load the url
+bookJson &lt;- getURL(&quot;https://raw.githubusercontent.com/JoshuaSturm/CUNY_MSDA/Public/Fall_2017/DATA_607/DATA_607_Homework_7/DATA_607_Homework_7_JSON.json&quot;)
+
+bookJson &lt;- fromJSON(bookJson)
+bookJson &lt;- as.data.frame(bookJson)
+datatable(bookJson)</code></pre>
+<div id="htmlwidget-63d4270e40e014bc7dc6" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-63d4270e40e014bc7dc6">{"x":{"filter":"none","data":[["1","2","3"],["Calculus (Eighth Edition)","A First Course in Probability (8th Edition)","Mathematics for Finance: An Introduction to Financial Engineering (Second Edition)"],["Ron Larson, Robert P. Hostetler, Bruce H. Edwards","Sheldon Ross","Marek Capinski, Tomasz Zastawniak"],["978-0618502981","978-0136033134","978-0857290816"],["Brooks Cole","Pearson Prentice Hall","Springer"],["January 11, 2005","January 7, 2009","November 25, 2010"],["1328","552","336"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>book.title<\/th>\n      <th>book.author<\/th>\n      <th>book.isbn<\/th>\n      <th>book.publisher<\/th>\n      <th>book.published<\/th>\n      <th>book.pages<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"crosstalkOptions":{"key":null,"group":null},"order":[],"autoWidth":false,"orderClasses":false,"columnDefs":[{"orderable":false,"targets":0}]},"selection":{"mode":"multiple","selected":null,"target":"row"}},"evals":[],"jsHooks":[]}</script>
 </section>
 </section>
 

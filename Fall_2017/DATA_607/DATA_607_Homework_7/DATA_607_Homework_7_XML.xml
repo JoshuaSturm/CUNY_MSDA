@@ -1,27 +1,27 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <textbooks>
     <book>
-        <title> Calculus (Eighth Edition) </title>
-        <author> Ron Larson, Robert P. Hostetler, Bruce H. Edwards </author>
-        <isbn> 978-0618502981 </isbn>
-        <publisher> Brooks Cole </publisher>
-        <published> January 11, 2005 </published>
-        <pages> 1328 </pages>
+        <Title> Calculus (Eighth Edition) </Title>
+        <Author> Ron Larson, Robert P. Hostetler, Bruce H. Edwards </Author>
+        <ISBN-13> 978-0618502981 </ISBN-13>
+        <Publisher> Brooks Cole </Publisher>
+        <Published> January 11, 2005 </Published>
+        <Pages> 1328 </Pages>
     </book>
     <book>
-        <title> A First Course in Probability (8th Edition) </title>
-        <author> Sheldon Ross </author>
-        <isbn> 978-0136033134 </isbn>
-        <publisher> Pearson Prentice Hall </publisher>
-        <published> January 7, 2009 </published>
-        <pages> 552 </pages>
+        <Title> A First Course in Probability (8th Edition) </Title>
+        <Author> Sheldon Ross </Author>
+        <ISBN-13> 978-0136033134 </ISBN-13>
+        <Publisher> Pearson Prentice Hall </Publisher>
+        <Published> January 7, 2009 </Published>
+        <Pages> 552 </Pages>
     </book>
     <book>
-        <title> Mathematics for Finance: An Introduction to Financial Engineering (Second Edition) </title>
-        <author> Marek Capiński, Tomasz Zastawniak </author>
-        <isbn> 978-0857290816 </isbn>
-        <publisher> Springer </publisher>
-        <published> November 25, 2010 </published>
-        <pages> 336 </pages>
+        <Title> Mathematics for Finance: An Introduction to Financial Engineering (Second Edition) </Title>
+        <Author> Marek Capiński, Tomasz Zastawniak </Author>
+        <ISBN-13> 978-0857290816 </ISBN-13>
+        <Publisher> Springer </Publisher>
+        <Published> November 25, 2010 </Published>
+        <Pages> 336 </Pages>
     </book>
 </textbooks>
