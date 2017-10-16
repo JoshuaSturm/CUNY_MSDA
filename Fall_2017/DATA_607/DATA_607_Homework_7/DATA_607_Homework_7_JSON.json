@@ -1,6 +1,4 @@
 {
-    "book": [
-        {
             "Title": "Calculus (Eighth Edition)",
             "Author": "Ron Larson, Robert P. Hostetler, Bruce H. Edwards",
             "ISBN-13": "978-0618502981",
@@ -23,6 +21,4 @@
             "Publisher": "Springer",
             "Published": "November 25, 2010",
             "Pages": "336"
-        }
-    ]
-}
+  		}
