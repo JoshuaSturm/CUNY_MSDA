@@ -3,15 +3,15 @@ title: "DATA 606 - Homework 4"
 author: "Joshua Sturm"
 date: "10/15/2017"
 output:
-  pdf_document:
-    keep_tex: yes
-    toc: yes
   html_document:
     code_folding: show
     smooth_scroll: yes
     toc: yes
     toc_float: yes
     smart: no
+  pdf_document:
+    keep_tex: yes
+    toc: yes
 always_allow_html: yes
 ---
 
@@ -58,7 +58,7 @@ The researchers take another random sample of physically active individuals. Wou
 I would expect the mean and sd to be similar but different from the first sample.
 
 ### (e)
-The sample means obtained are point estimates for the mean height of all active individuals, if the sample of individuals is equivalent to a simple random sample. What measure do we use to quantify the variability of such an estimate (Hint: recall that $SD_\bar x = \frac{\sigma}{\sqrt{n}}$)? Compute this quantity using the data from the original sample under the condition that the data are a simple random sample.
+The sample means obtained are point estimates for the mean height of all active individuals, if the sample of individuals is equivalent to a simple random sample. What measure do we use to quantify the variability of such an estimate (Hint: recall that $SD_{\bar x} = \frac{\sigma}{\sqrt{n}}$)? Compute this quantity using the data from the original sample under the condition that the data are a simple random sample.
 
 #### Solution
 We can use the Standard Error: $SE = \frac{\sigma}{\sqrt{n}}$.
@@ -100,7 +100,7 @@ We are 95% confident that the average spending of all American adults is between
 This is the idea behind the confidence interval - to find the population mean.
 
 ### (e)
-A 90% confidence interval would be narrower than the 95% confidence interval since we don’t need to be as sure about our estimate.
+A 90% confidence interval would be narrower than the 95% confidence interval since we don't need to be as sure about our estimate.
 
 #### Solution
 **True.**
@@ -112,7 +112,7 @@ In order to decrease the margin of error of a 95% confidence interval to a third
 #### Solution
 **False.**
 The formula for the margin of error is: $MOE = z* \times SE$.
-If we want $\frac{1}{3}\times SE$, we get $\frac{\sigma}{\sqrt(3^2 * n)}, so we'd have to use a sample 9 times larger.
+If we want $\frac{1}{3}\times SE$, we get $\frac{\sigma}{\sqrt(3^2 * n)}$, so we'd have to use a sample 9 times larger.
 
 ### (g)
 The margin of error is 4.4.
@@ -152,7 +152,149 @@ mean <- 30.69
 sd <- 4.31
 SE <- sd / sqrt(n)
 z <- ((mean - 32)/SE)
+pnorm(z)
 ```
+
+### (c)
+Interpret the p-value in context of the hypothesis test and the data.
+
+#### Solution
+Because the p-value is less than the significance level, we reject the null hypothesis, and go with the alternate, i.e. gifted children can count to 10 in less than 32 months.
+
+### (d) 
+Calculate a 90% confidence interval for the average age at which gifted children first count to 10 successfully.
+
+#### Solution
+```{r}
+confl <- mean - (1.65 * SE)
+confu <- mean + (1.65 * SE)
+cat(confl,confu)
+```
+We are 90% confident that the average age gifted children first count to 10 is between 29.50 and 31.88 months.
+
+### (e)
+Do your results from the hypothesis test and the confidence interval agree? Explain.
+
+#### Solution
+Yes. We rejected the null hypothesis of 32 months, and the confidence interval does not include 32.
+
+## 4.26 Gifted children, Part II.
+Exercise 4.24 describes a study on gifted children. In this study, along with variables on the children, the researchers also collected data on the mother's and father's IQ of the 36 randomly sampled gifted children. The histogram below shows the distribution of mother's IQ. Also provided are some sample statistics.
+
+### (a)
+Perform a hypothesis test to evaluate if these data provide convincing evidence that the average IQ of mothers of gifted children is different than the average IQ for the population at large, which is 100. Use a significance level of 0.10.
+
+#### Solution
+Null hypothesis $H_0: \mu = 100$ (IQ).\
+Alternate hypothesis $H_A: \mu \neq 100$ (IQ).\
+$\alpha  = 0.10$.\
+Since we're interested if it differs from the average, it's a two-sided hypothesis test.
+```{r}
+n <- 36
+mean <- 118.2
+sd <- 6.5
+SE <- sd/sqrt(n)
+z <- ((mean - 100)/SE)
+2*(1-pnorm(z)) # symmetric
+```
+Since the p-value is approximately 0, which is less than the significance level of 0.10, we can reject the null hypothesis in favour of the alternative.
+
+### (b)
+Calculate a 90% confidence interval for the average IQ of mothers of gifted children.
+
+#### Solution
+```{r}
+confl <- mean - (1.65 * SE)
+confu <- mean + (1.65 * SE)
+cat(confl,confu)
+```
+We are 90% confident that the average IQ of mothers of gifted children is between 116.4 and 120.
+
+### (c)
+Do your results from the hypothesis test and the confidence interval agree? Explain.
+
+#### Solution
+Yes. We rejected the null hypothesis because the p-value was too low, and the given mean is not inside the confidence interval.
+
+## 4.34 CLT. 
+Define the term "sampling distribution" of the mean, and describe how the shape, center, and spread of the sampling distribution of the mean change as sample size increases.
+
+### Solution
+The sampling distribution is the distribution of the means of a collection of points estimates of a population. As the sample size increases, it more closely resembles the normal distribution, has a narrower spread, and the center is closer to the true population mean.
+
+## 4.40 CFLBs.
+A manufacturer of compact fluorescent light bulbs advertises that the distribution of the lifespans of these light bulbs is nearly normal with a mean of 9,000 hours and a standard deviation of 1,000 hours.
+
+### (a)
+What is the probability that a randomly chosen light bulb lasts more than 10,500 hours?
+
+#### Solution
+```{r}
+n <- 10500
+mean <- 9000
+sd <- 1000
+z = (n - mean)/sd
+
+# since we want x > 10,500, we look for 1-pnorm(z)
+1-pnorm(z)
+```
+The probability that a randomly chosen buld lasts more than 10,500 hours is ~6.68%.
+
+### (b)
+Describe the distribution of the mean lifespan of 15 light bulbs.
+
+#### Solution
+The sample size of 15 is small (<30), but we can assume that it will be nearly normal.
+```{r}
+SE <- sd/sqrt(15)
+SE
+```
+
+### (c)
+What is the probability that the mean lifespan of 15 randomly chosen light bulbs is more than 10,500 hours?
+
+#### Solution
+```{r}
+z <- (n - mean)/SE
+# Since we want x > 10,500, we look for 1-pnorm(z)
+1-pnorm(z)
+```
+The probability that the mean lifespan of 15 random bulbs is > 10,500 is approximately 0.
+
+### (d)
+Sketch the two distributions (population and sampling) on the same scale.
+
+#### Solution
+```{r}
+library(ggplot2)
+seq <- seq(6000,12000)
+dp <- dnorm(seq, mean, sd)
+ds <- dnorm(seq, mean, SE)
+
+ggplot() +
+  geom_line(aes(seq, ds, color = "Population")) +
+  geom_line(aes(seq,dp, color = "Sample")) +
+  labs(x = "Hours", y = "Density")
+```
+
+#### (e)
+Do your results from the hypothesis test and the confidence interval agree? Explain.
+
+#### Solution
+No. For (a), we'd need a nearly normal distribution to estimate with a sample. Similarly, we'd need a larger sample size ($> 30$) in (c) for it to be nearly normal.
+
+## 4.48 Same observation, different sample size.
+Suppose you conduct a hypothesis test based on a sample where the sample size is n = 50, and arrive at a p-value of 0.08. You then refer back to your notes and discover that you made a careless mistake, the sample size should have been n = 500. Will your p-value-increase, decrease, or stay the same? Explain.
+
+### Solution
+The formula for $Z$ is $Z = \frac{\overline{x} - \text{null value}}{SE_{\overline{x}}}$.\
+$SE = \frac{\sigma}{\sqrt{n}}$, so as $n$ increases, $SE$ decreases. Consequently, we get a larger $Z$, and, therefore, a smaller $p$.
+
+
+
+
+
+
 
 
 
