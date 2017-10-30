@@ -3,6 +3,8 @@ title: "DATA 606 - Homework 5"
 author: "Joshua Sturm"
 date: "October 27, 2017"
 output:
+  pdf_document:
+    keep_tex: yes
   html_document:
     highlight: pygments
     theme: cerulean
@@ -10,8 +12,6 @@ output:
     toc: yes
     toc_float: yes
     smart: no
-  pdf_document:
-    keep_tex: yes
 always_allow_html: yes
 ---
 

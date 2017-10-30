@@ -395,27 +395,56 @@ part, so we can assume variability across all groups is equal.
 
 \subsubsection{(c)}\label{c-2}
 
-\$\$ \textbackslash{}begin\{center\}
-
-\begin{tabular}{l  r  r  r  r  r  r}
-\multicolumn{1}{c}{}    & \multicolumn{5}{c}{\textit{Educational attainment}} \\
-\cline{2-6}
-                & Less than HS  & HS        & Jr Coll   & Bachelor's & Graduate & Total \\
-\hline
-Mean            & 38.67         & 39.6  & 41.39 & 42.55 & 40.85     & 40.45           \\
-SD              & 15.81         & 14.97 & 18.1  & 13.62 & 15.51 & 15.17      \\
-n               & 121           & 546   & 97        & 253   & 155   & 1,172 \\
-\hline
-\end{tabular}
-
-\$\$
-
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{n <-}\StringTok{ }\DecValTok{5}
-\NormalTok{df <-}\StringTok{ }\NormalTok{n }\OperatorTok{-}\StringTok{ }\DecValTok{1}
+\CommentTok{# All formulas taken from page 250 in the textbook}
+
+\NormalTok{k <-}\StringTok{ }\DecValTok{5}   \CommentTok{# Categories}
+\NormalTok{df <-}\StringTok{ }\NormalTok{k }\OperatorTok{-}\StringTok{ }\DecValTok{1}   \CommentTok{# degrees of freedom}
+\NormalTok{n <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{121}\NormalTok{, }\DecValTok{546}\NormalTok{, }\DecValTok{97}\NormalTok{, }\DecValTok{253}\NormalTok{, }\DecValTok{155}\NormalTok{)               }\CommentTok{# array of totals for each category}
+\NormalTok{tot_n <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(n)}
+
+\NormalTok{df_E <-}\StringTok{ }\NormalTok{tot_n }\OperatorTok{-}\StringTok{ }\NormalTok{k}
+\NormalTok{tot_df <-}\StringTok{ }\NormalTok{df }\OperatorTok{+}\StringTok{ }\NormalTok{(tot_n }\OperatorTok{-}\StringTok{ }\NormalTok{k)}
+
+\CommentTok{# MSG = SSG / df_G}
+
+\NormalTok{MSG <-}\StringTok{ }\FloatTok{501.54} \CommentTok{# (given)}
+\CommentTok{# SSG = MSG * df_G}
+\NormalTok{SSG <-}\StringTok{ }\NormalTok{df }\OperatorTok{*}\StringTok{ }\NormalTok{MSG}
+\CommentTok{# SSE = SST - SSG}
+\NormalTok{SSE <-}\StringTok{ }\DecValTok{267382}
+\NormalTok{SST <-}\StringTok{ }\NormalTok{SSE }\OperatorTok{+}\StringTok{ }\NormalTok{SSG}
+
+\CommentTok{# MSE = SSE / df_E}
+\NormalTok{MSE <-}\StringTok{ }\NormalTok{SSE }\OperatorTok{/}\StringTok{ }\NormalTok{df_E}
+
+\CommentTok{# F = MSG / MSE}
+\NormalTok{F_stat <-}\StringTok{ }\NormalTok{MSG }\OperatorTok{/}\StringTok{ }\NormalTok{MSE}
+
+\NormalTok{Pr <-}\StringTok{ }\FloatTok{0.0682}
+
+\NormalTok{names <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"df"}\NormalTok{, }\StringTok{"Sum Sq"}\NormalTok{, }\StringTok{"Mean Sq"}\NormalTok{, }\StringTok{"F Value"}\NormalTok{, }\StringTok{"Pr(>F"}\NormalTok{)}
+\NormalTok{row_names <-}\StringTok{ }
+
+\NormalTok{col_df <-}\StringTok{ }\KeywordTok{c}\NormalTok{(df, df_E, tot_df)}
+\NormalTok{col_sq <-}\StringTok{ }\KeywordTok{c}\NormalTok{(SSG, SSE, SST)}
+\NormalTok{col_msq <-}\StringTok{ }\KeywordTok{c}\NormalTok{(MSG, MSE, }\OtherTok{NA}\NormalTok{)}
+\NormalTok{col_F <-}\StringTok{ }\KeywordTok{c}\NormalTok{(F_stat, }\OtherTok{NA}\NormalTok{, }\OtherTok{NA}\NormalTok{)}
+\NormalTok{col_Pr <-}\StringTok{ }\KeywordTok{c}\NormalTok{(Pr, }\OtherTok{NA}\NormalTok{, }\OtherTok{NA}\NormalTok{)}
+\NormalTok{dataf <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(col_df, col_sq, col_msq, col_F, col_Pr)}
+\KeywordTok{names}\NormalTok{(dataf) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"df"}\NormalTok{, }\StringTok{"Sum Sq"}\NormalTok{, }\StringTok{"Mean Sq"}\NormalTok{, }\StringTok{"F Value"}\NormalTok{, }\StringTok{"Pr(>F)"}\NormalTok{)}
+\KeywordTok{rownames}\NormalTok{(dataf) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"degree"}\NormalTok{, }\StringTok{"Residuals"}\NormalTok{, }\StringTok{"Total"}\NormalTok{)}
+\NormalTok{dataf}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+##             df    Sum Sq  Mean Sq  F Value Pr(>F)
+## degree       4   2006.16 501.5400 2.188992 0.0682
+## Residuals 1167 267382.00 229.1191       NA     NA
+## Total     1171 269388.16       NA       NA     NA
+\end{verbatim}
 
 
 \end{document}
