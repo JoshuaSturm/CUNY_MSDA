@@ -1,0 +1,65 @@
+---
+title: "DATA 607 - Homework 9"
+author: "Joshua Sturm"
+date: "October 27, 2017"
+output:
+  html_document:
+    code_folding: show
+    toc: yes
+    toc_float: yes
+    smart: no
+  pdf_document:
+    keep_tex: yes
+always_allow_html: yes
+---
+
+## Task
+
+The New York Times web site provides a rich set of APIs, as described here:  http://developer.nytimes.com/docs.\
+You'll need to start by signing up for an API key. Your task is to choose one of the New York Times APIs, construct an interface in R to read in the JSON data, and transform it to an R dataframe. 
+ 
+## Load libraries
+```{r loadlibraries, warning = F, message = F}
+library(tidyverse)
+library(jsonlite)
+library(DT)
+library(RCurl)
+library(stringr)
+```
+
+## Methodology
+
+I decided to use the Book API,located at https://developer.nytimes.com/books_api.json, which has data on the Times' best-sellers list.
+
+```{r apikey, echo = F}
+key <- "0b71fd02e63d4e6bb9f32fe6e519d63a"
+```
+
+## Example
+
+```{r example}
+
+# Base url:
+base.url <- "https://api.nytimes.com/svc/books/v3/"
+recent.best.url <- "lists/best-sellers/history.json?"
+```
+
+```{r exampleone2, echo = F}
+recent.url <- paste0(base.url, recent.best.url, 'api-key=', key)
+```
+
+```{r exampleone3}
+recent.get <- getURL(recent.url)
+```
+
+This is in a pretty ugly, unreadable format, so let's clean it up.
+
+```{r exampleoneclean}
+recent.clean <- fromJSON(recent.get) %>%
+  as.data.frame() %>%
+  unnest(results.isbns) %>%
+  select(2, 4, 5, 7, 11:13)
+names(recent.clean) <- str_replace_all(names(recent.clean), "results.", "")
+datatable(recent.clean)
+```
+
