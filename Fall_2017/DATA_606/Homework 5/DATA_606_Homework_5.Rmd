@@ -3,8 +3,6 @@ title: "DATA 606 - Homework 5"
 author: "Joshua Sturm"
 date: "October 27, 2017"
 output:
-  pdf_document:
-    keep_tex: yes
   html_document:
     highlight: pygments
     theme: cerulean
@@ -12,6 +10,8 @@ output:
     toc: yes
     toc_float: yes
     smart: no
+  pdf_document:
+    keep_tex: yes
 always_allow_html: yes
 ---
 
@@ -208,3 +208,6 @@ names(dataf) <- c("df", "Sum Sq", "Mean Sq", "F Value", "Pr(>F)")
 rownames(dataf) <- c("degree", "Residuals", "Total")
 dataf
 ```
+
+### (d)
+Since $P = 0.0682 > p = 0.05$, we can't reject the null hypothesis, and conclude that there's no difference in number of hours worked across demographics.
