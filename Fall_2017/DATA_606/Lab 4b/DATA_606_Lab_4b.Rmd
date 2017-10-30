@@ -1,12 +1,11 @@
 ---
-title: "DATA 606 - Lab 4b"
+title: "DATA 606 - Homework 5"
 author: "Joshua Sturm"
-date: "October 25, 2017"
+date: "October 26, 2017"
 output:
   pdf_document:
     keep_tex: yes
   html_document:
-    css: ./lab.css
     highlight: pygments
     theme: cerulean
     code_folding: show

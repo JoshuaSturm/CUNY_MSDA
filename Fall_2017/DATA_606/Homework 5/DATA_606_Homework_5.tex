@@ -1,0 +1,421 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={DATA 606 - Homework 5},
+            pdfauthor={Joshua Sturm},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{DATA 606 - Homework 5}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{Joshua Sturm}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  \date{October 27, 2017}
+
+
+\begin{document}
+\maketitle
+
+\subsection{5.6 Working backwards, Part
+II.}\label{working-backwards-part-ii.}
+
+A 90\% confidence interval for a population mean is (65,77). The
+population distribution is approximately normal and the population
+standard deviation is unknown. This confidence interval is based on a
+simple random sample of 25 observations. Calculate the sample mean, the
+margin of error, and the sample standard deviation.
+
+\subsubsection{Solution}\label{solution}
+
+Since the population distribution is approximately normal, the sample
+means will be nearly normal even if \(n < 30\).\\
+Formula for the sample mean: \(\frac{x_1 + x_2}{2}\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n <-}\StringTok{ }\DecValTok{25}
+\NormalTok{x1 <-}\StringTok{ }\DecValTok{65}
+\NormalTok{x2 <-}\StringTok{ }\DecValTok{77}
+\NormalTok{samp_mean <-}\StringTok{ }\NormalTok{(x1}\OperatorTok{+}\NormalTok{x2)}\OperatorTok{/}\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+Formula for the margin of error: \(\frac{x_2 - x_1}{2}\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{moe <-}\StringTok{ }\NormalTok{(x2}\OperatorTok{-}\NormalTok{x1)}\OperatorTok{/}\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+Formula for the standard deviation: \(SE = \frac{s}{\sqrt{n}}\).\\
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{df <-}\StringTok{ }\NormalTok{n}\OperatorTok{-}\DecValTok{1}
+\NormalTok{c <-}\StringTok{ }\FloatTok{0.9}
+\NormalTok{c2 <-}\StringTok{ }\NormalTok{c }\OperatorTok{+}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{c)}\OperatorTok{/}\DecValTok{2}
+\NormalTok{t24 <-}\StringTok{ }\KeywordTok{qt}\NormalTok{(c2, df)}
+\end{Highlighting}
+\end{Shaded}
+
+\(ME = t_{24}^{*}SE \to SE = \frac{ME}{t_{24}^{*}} \to s = \frac{ME\sqrt{n}}{t_{24}^{*}} \to \frac{6\sqrt{25}}{t24}\)\\
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{s <-}\StringTok{ }\NormalTok{(moe}\OperatorTok{*}\KeywordTok{sqrt}\NormalTok{(}\DecValTok{25}\NormalTok{))}\OperatorTok{/}\NormalTok{(t24)}
+\end{Highlighting}
+\end{Shaded}
+
+The standard deviation for the sample is 17.5348146.
+
+\subsection{5.14 SAT scores.}\label{sat-scores.}
+
+SAT scores of students at an Ivy League college are distributed with a
+standard deviation of 250 points. Two statistics students, Raina and
+Luke, want to estimate the average SAT score of students at this college
+as part of a class project. They want their margin of error to be no
+more than 25 points.\\
+(a) Raina wants to use a 90\% confidence interval. How large a sample
+should she collect?\\
+(b) Luke wants to use a 99\% confidence interval. Without calculating
+the actual sample size, determine whether his sample should be larger or
+smaller than Raina's, and explain your reasoning.\\
+(c) Calculate the minimum required sample size for Luke.
+
+\subsubsection{(a)}\label{a}
+
+\(ME = z*\frac{\sigma}{\sqrt{n}}, \quad ME = 25, \sigma = 250\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# for 90% confidence interval, Z* = 1.645}
+\NormalTok{z <-}\StringTok{ }\FloatTok{1.645}
+\NormalTok{me <-}\StringTok{ }\DecValTok{25}
+\NormalTok{sigma <-}\StringTok{ }\DecValTok{250}
+\CommentTok{# 25 = 1.645*(250/sqrt(n))}
+\NormalTok{n <-}\StringTok{ }\NormalTok{(z}\OperatorTok{*}\NormalTok{sigma}\OperatorTok{/}\NormalTok{me)}\OperatorTok{^}\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+Raina would need 270.6025 = 271 students.
+
+\subsubsection{(b)}\label{b}
+
+Since Luke wants a higher certainty, he'll need a higher z-value, which
+will result in a larger sample size.
+
+\subsubsection{(c)}\label{c}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# for 99% confidence interval, Z* = 2.58}
+\NormalTok{z <-}\StringTok{ }\FloatTok{2.58}
+\NormalTok{n <-}\StringTok{ }\NormalTok{(z}\OperatorTok{*}\NormalTok{sigma}\OperatorTok{/}\NormalTok{me)}\OperatorTok{^}\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+Luke would need a minimum of 665.64 = 666 students.
+
+\subsection{5.20 High School and Beyond, Part
+I.}\label{high-school-and-beyond-part-i.}
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\tightlist
+\item
+  Is there a clear difference in the average reading and writing scores?
+\item
+  Are the reading and writing scores of each student independent of each
+  other?
+\item
+  Create hypotheses appropriate for the following research question: is
+  there an evident difference in the average scores of students in the
+  reading and writing exam?
+\item
+  Check the conditions required to complete this test.
+\item
+  The average observed difference in scores is
+  \(\bar{x}_{\text{read}-\text{write}} = -0.545\), and the standard
+  deviation of the differences is 8.887 points. Do these data provide
+  convincing evidence of a difference between the average scores on the
+  two exams?
+\item
+  What type of error might we have made? Explain what the error means in
+  the context of the application.
+\item
+  Based on the results of this hypothesis test, would you expect a
+  confidence interval for the average difference between the reading and
+  writing scores to include 0? Explain your reasoning.
+\end{enumerate}
+
+\subsubsection{(a)}\label{a-1}
+
+There doesn't appear to be a clear difference. The means are slightly
+different in the box plot, but the histogram is nearly normal, with a
+center close to 0.
+
+\subsubsection{(b)}\label{b-1}
+
+Because a student's reading abilities are related to their writing
+skills, I'd say that the two are not independent, but \textbf{paired}.
+If the question is asking between students, then yes, I'd say each
+student's abilities are independent.
+
+\subsubsection{(c)}\label{c-1}
+
+\(H_0: \mu_{\text{diff}} = 0.\) There is no difference in the average
+scores of students in the reading and writing exam.
+\(H_A: \mu_{\text{diff}} \neq 0.\) There \emph{is} a difference in
+average scores.
+
+\subsubsection{(d)}\label{d}
+
+Independence: Since the sample size \(n = 200 > 30\), and comprises less
+than 10\% of high school students nationwide, we can assume that each
+student is independent. Skew: There is no strong skew evident in the
+histogram. Because both conditions are satisfied, we can apply the
+t-distribution.
+
+\subsubsection{(e)}\label{e}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n <-}\StringTok{ }\DecValTok{200}
+\NormalTok{df <-}\StringTok{ }\NormalTok{n}\OperatorTok{-}\DecValTok{1}
+\NormalTok{sd <-}\StringTok{ }\FloatTok{8.886}
+\NormalTok{avg_diff <-}\StringTok{ }\OperatorTok{-}\FloatTok{0.545}
+\NormalTok{se <-}\StringTok{ }\NormalTok{sd }\OperatorTok{/}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(n)}
+\NormalTok{tdf <-}\StringTok{ }\NormalTok{(avg_diff }\OperatorTok{-}\StringTok{ }\DecValTok{0}\NormalTok{)}\OperatorTok{/}\NormalTok{(se)}
+\NormalTok{p <-}\StringTok{ }\DecValTok{2} \OperatorTok{*}\StringTok{ }\KeywordTok{pt}\NormalTok{(tdf, df)}
+\end{Highlighting}
+\end{Shaded}
+
+Since \$p =\(0.3867831\) \textgreater{} p = 0.05\$, we can't reject the
+null hypothesis, and conclude that there is no difference in the average
+scores.
+
+\subsubsection{(f)}\label{f}
+
+(From footnote 16 on page 235): It's possible we didn't detect a
+difference, and made a Type 2 Error. If we did make an error, we may
+have falsely accepted the null hypothesis.
+
+\subsubsection{(g)}\label{g}
+
+Yes. Since we accepted the null hypothesis, which said that the
+difference is 0, then I'd expect 0 to be in a confidence interval.
+
+\subsection{5.32 Fuel efficiency of manual and automatic cars, Part
+I.}\label{fuel-efficiency-of-manual-and-automatic-cars-part-i.}
+
+Each year the US Environmental Protection Agency (EPA) releases fuel
+economy data on cars manufactured in that year. Below are summary
+statistics on fuel efficiency (in miles/gallon) from random samples of
+cars with manual and automatic transmissions manufactured in 2012. Do
+these data provide strong evidence of a difference between the average
+fuel efficiency of cars with manual and automatic transmissions in terms
+of their average city mileage? Assume that conditions for inference are
+satisfied.
+
+\subsubsection{Solution}\label{solution-1}
+
+\(\bar{x}_{\text{Automatic}} = 16.12, \quad s_{\text{Automatic}} = 3.58\).
+
+\(\bar{x}_{\text{Manual}} = 19.85, \quad s_{\text{Manual}} = 4.51\).\\
+\(n = 26\).\\
+\(df = n - 1 = 25\).
+
+\(H_0: \mu_{A} = 0.\) There is no difference in mpg between automatic
+and manual cars.\\
+\(H_A: \mu_{M} \neq 0\). There \emph{is} a difference in mpg.
+
+\(\bar{x}_{\text{diff}} = \bar{x}_{A} - \bar{x}_{M} = 16.12 - 19.85 = -3.73\).
+
+\(SE = \sqrt{\frac{s_{A}^2}{n}+\frac{s_{M}^2}{n}} = \sqrt{\frac{(3.58)^2}{26}+\frac{(4.51)^2}{26}} \approx 1.12927.\)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n <-}\StringTok{ }\DecValTok{26}
+\NormalTok{df <-}\StringTok{ }\NormalTok{n}\OperatorTok{-}\DecValTok{1}
+\NormalTok{meanA <-}\StringTok{ }\FloatTok{16.12}
+\NormalTok{sdA <-}\StringTok{ }\FloatTok{3.58}
+\NormalTok{meanM <-}\StringTok{ }\FloatTok{19.85}
+\NormalTok{sdM <-}\StringTok{ }\FloatTok{4.51}
+\NormalTok{xdiff <-}\StringTok{ }\NormalTok{meanA }\OperatorTok{-}\StringTok{ }\NormalTok{meanM}
+\NormalTok{se <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(((sdA}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\NormalTok{n)}\OperatorTok{+}\NormalTok{((sdM)}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\NormalTok{n)}
+\NormalTok{tdf <-}\StringTok{ }\NormalTok{(xdiff }\OperatorTok{-}\StringTok{ }\DecValTok{0}\NormalTok{)}\OperatorTok{/}\NormalTok{(se)}
+\NormalTok{p <-}\StringTok{ }\DecValTok{2} \OperatorTok{*}\StringTok{ }\KeywordTok{pt}\NormalTok{(tdf, df)}
+\end{Highlighting}
+\end{Shaded}
+
+Since \$p =\(0.0028836\) \textless{} p = 0.05\$, we reject the null
+hypothesis, and conclude that there \emph{is} a difference in mpg
+between automatic and manual cars.
+
+\subsection{5.48 Work hours and
+education.}\label{work-hours-and-education.}
+
+The General Social Survey collects data on demographics, education, and
+work, among many other characteristics of US residents. Using ANOVA, we
+can consider educational attainment levels for all 1,172 respondents at
+once. Below are the distributions of hours worked by educational
+attainment and relevant summary statistics that will be helpful in
+carrying out this analysis. (a) Write hypotheses for evaluating whether
+the average number of hours worked varies across the five groups. (b)
+Check conditions and describe any assumptions you must make to proceed
+with the test. (c) Below is part of the output associated with this
+test. Fill in the empty cells. (d) What is the conclusion of the test?
+
+\subsubsection{(a)}\label{a-2}
+
+\(H_0: \mu_1 = \mu_2 = ... = \mu_n\). The mean number of hours worked is
+the same across all groups.\\
+\(H_A: \mu_1 \neq \mu_2 \neq ... \neq \mu_n\). The mean number of hours
+worked is not the same.
+
+\subsubsection{(b)}\label{b-2}
+
+Independence: \(n = 1,172 > 30\), and comprises \(< 10\%\) of the
+population, so we can assume they're independent.\\
+There doesn't appear to be any strong skew, so we can assume the data is
+nearly normal. Mean and standard deviation are similar for the most
+part, so we can assume variability across all groups is equal.
+
+\subsubsection{(c)}\label{c-2}
+
+\$\$ \textbackslash{}begin\{center\}
+
+\begin{tabular}{l  r  r  r  r  r  r}
+\multicolumn{1}{c}{}    & \multicolumn{5}{c}{\textit{Educational attainment}} \\
+\cline{2-6}
+                & Less than HS  & HS        & Jr Coll   & Bachelor's & Graduate & Total \\
+\hline
+Mean            & 38.67         & 39.6  & 41.39 & 42.55 & 40.85     & 40.45           \\
+SD              & 15.81         & 14.97 & 18.1  & 13.62 & 15.51 & 15.17      \\
+n               & 121           & 546   & 97        & 253   & 155   & 1,172 \\
+\hline
+\end{tabular}
+
+\$\$
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n <-}\StringTok{ }\DecValTok{5}
+\NormalTok{df <-}\StringTok{ }\NormalTok{n }\OperatorTok{-}\StringTok{ }\DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}
