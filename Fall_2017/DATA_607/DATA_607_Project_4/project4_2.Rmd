@@ -1,0 +1,56 @@
+---
+title: "DATA 607 - Project 4"
+author: "Joshua Sturm"
+date: "November 5, 2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warn = F, message = F)
+options(stringsAsFactors = F)
+```
+
+## Import libraries
+```{r libraries}
+library(tidyverse)
+library(wordcloud2)
+library(tm)
+library(quanteda)
+library(RTextTools)
+```
+
+## Import files
+```{r}
+setwd("~/GitHub/CUNY_MSDA/Fall_2017/DATA_607/DATA_607_Project_4")
+
+# Training Files
+ham.one.dir <- list.files("easy_ham/", full.names = T, recursive = F)
+spam.one.dir <- list.files("spam/", full.names = T, recursive = F)
+
+# Testing Files
+ham.two.dir <- list.files("easy_ham_2/", full.names = T, recursive = F)
+spam.two.dir <- list.files("spam_2/", full.names = T, recursive = F)
+
+# Combine testing files
+comb <- c(ham.two.dir, spam.two.dir)
+```
+
+### Preview files
+```{r}
+head(readLines(ham.one.dir[1]), 10)
+tail(readLines(ham.one.dir[1]), 10)
+```
+
+We can see that each email has a long head and footer. We only want to keep the time and body, so let's remove the irrelevant parts. It seems that there is usually a new line between header and body, so we can use regex to remove everything before that empty line.
+
+## Clean files
+```{r}
+for (i in 1:length(comb)){
+  read_f <- readLines(comb[i])
+  read_f <- gsub("[[:space:]]*$", "", read_f)
+}
+
+
+
+
+```
