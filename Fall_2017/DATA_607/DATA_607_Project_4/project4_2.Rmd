@@ -13,6 +13,7 @@ options(stringsAsFactors = F)
 ## Import libraries
 ```{r libraries}
 library(tidyverse)
+library(stringr)
 library(wordcloud2)
 library(tm)
 library(quanteda)
@@ -36,6 +37,7 @@ comb <- c(ham.two.dir, spam.two.dir)
 ```
 
 ### Preview files
+
 ```{r}
 head(readLines(ham.one.dir[1]), 10)
 tail(readLines(ham.one.dir[1]), 10)
@@ -44,13 +46,129 @@ tail(readLines(ham.one.dir[1]), 10)
 We can see that each email has a long head and footer. We only want to keep the time and body, so let's remove the irrelevant parts. It seems that there is usually a new line between header and body, so we can use regex to remove everything before that empty line.
 
 ## Clean files
+
 ```{r}
-for (i in 1:length(comb)){
-  read_f <- readLines(comb[i])
-  read_f <- gsub("[[:space:]]*$", "", read_f)
+get.msg <- function(path) {
+  con <- file(path, open="rt")
+  text <- readLines(con)
+  msg <- text[seq(which(text == "")[1] + 1, length(text))]
+  close(con)
+  return(paste(msg, collapse = "\n"))
 }
 
+spam.path <- "spam/" 
+spam.docs <- dir(spam.path)
+spam.docs <- spam.docs[which( !str_detect(spam.docs,"^0000.") & spam.docs != 'cmds' )]
+all.spam <- sapply(spam.docs, function(p)get.msg(file.path(spam.path, p, sep = ""))) 
+  
+ham.path <- "easy_ham/"
+ham.docs <- dir(ham.path)
+ham.docs <- ham.docs[which(ham.docs!="cmds")]
+all.ham <- sapply(ham.docs, function(p)get.msg(paste(ham.path,p,sep="")))
 
+spam.2.path <- "spam_2/" 
+spam.2.docs <- dir(spam.path)
+spam.2.docs <- spam.docs[which( !str_detect(spam.docs,"^0000.") & spam.docs != 'cmds' )]
+all.spam.2 <- sapply(spam.docs, function(p)get.msg(file.path(spam.path, p, sep = ""))) 
+
+ham.2.path <- "easy_ham_2/"
+ham.2.docs <- dir(ham.path)
+ham.2.docs <- ham.docs[which(ham.docs!="cmds")]
+all.ham.2 <- sapply(ham.docs, function(p)get.msg(paste(ham.path,p,sep="")))
+```
+
+```{r}
+spam.corpus <- Corpus(VectorSource(all.spam))
+meta(spam.corpus, tag = "class") <- "spam"
+
+ham.corpus <- Corpus(VectorSource(all.ham))
+meta(ham.corpus, tag = "class") <- "ham"
+
+spam.2.corpus <- Corpus(VectorSource(all.spam.2))
+meta(spam.2.corpus, tag = "class") <- "spam"
+
+ham.2.corpus <- Corpus(VectorSource(all.ham.2))
+meta(ham.2.corpus, tag = "class") <- "ham"
+
+ham.corpus <- ham.corpus %>%
+  tm_map(content_transformer(tolower)) %>%
+  tm_map(removeWords, words = stopwords("english")) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stemDocument) %>%
+  tm_map(removeNumbers) %>%
+  tm_map(stripWhitespace)
+
+spam.corpus <- spam.corpus %>%
+  tm_map(content_transformer(tolower)) %>%
+  tm_map(removeWords, words = stopwords("english")) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stemDocument) %>%
+  tm_map(removeNumbers) %>%
+  tm_map(stripWhitespace)
+
+spam.2.corpus <- spam.2.corpus %>%
+  tm_map(content_transformer(tolower)) %>%
+  tm_map(removeWords, words = stopwords("english")) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stemDocument) %>%
+  tm_map(removeNumbers) %>%
+  tm_map(stripWhitespace)
+
+ham.2.corpus <- ham.2.corpus %>%
+  tm_map(content_transformer(tolower)) %>%
+  tm_map(removeWords, words = stopwords("english")) %>%
+  tm_map(removePunctuation) %>%
+  tm_map(stemDocument) %>%
+  tm_map(removeNumbers) %>%
+  tm_map(stripWhitespace)
+
+test.corpus <- Corpus(VectorSource(c(ham.corpus, spam.corpus)))
+test.corpus <- sample(test.corpus)
+
+train.corpus <- Corpus(VectorSource(c(ham.2.corpus, spam.2.corpus)))
+train.corpus <- sample(train.corpus)
+# spam.tdm <- TermDocumentMatrix(spam.corpus)
+# spam.dtm <- DocumentTermMatrix(spam.corpus)
+# spam.dtm <- removeSparseTerms(spam.dtm, 0.95)
+# 
+# ham.tdm <- TermDocumentMatrix(ham.corpus)
+# ham.dtm <- DocumentTermMatrix(ham.corpus)
+# ham.dtm <- removeSparseTerms(ham.dtm, 0.95)
+# 
+# spam.2.tdm <- TermDocumentMatrix(spam.2.corpus)
+# spam.2.dtm <- DocumentTermMatrix(spam.2.corpus)
+# spam.2.dtm <- removeSparseTerms(spam.2.dtm, 0.95)
+# 
+# ham.2.tdm <- TermDocumentMatrix(ham.2.corpus)
+# ham.2.dtm <- DocumentTermMatrix(ham.2.corpus)
+# ham.2.dtm <- removeSparseTerms(ham.2.dtm, 0.95)
+
+test.dtm <- DocumentTermMatrix(test.corpus)
+test.dtm <- removeSparseTerms(test.dtm, 0.90)
+
+train.dtm <- DocumentTermMatrix(train.corpus)
+train.dtm <- removeSparseTerms(train.dtm, 0.90)
+
+tot.dtm <- c(test.dtm, train.dtm)
+```
+
+## Set up models
+
+```{r}
+
+all.labels <- c(rep("spam", length(spam.docs)), rep("ham", length(ham.docs)), rep("spam", length(spam.2.docs)), rep("ham", length(ham.2.docs)))
+
+lb <- length(spam.docs) + length(ham.docs)
+
+container <- create_container(tot.dtm, labels = all.labels, trainSize = 1:lb, testSize = (lb+1):length(all.labels), virgin = F)
+
+svm_model <- train_model(container, "SVM")
+tree_model <- train_model(container, "TREE")
+maxent_model <- train_model(container, "MAXENT")
+
+svm_out <- classify_model(container, svm_model)
+tree_out <- classify_model(container, tree_model)
+maxent_out <- classify_model(container, maxent_model)
 
 
 ```
