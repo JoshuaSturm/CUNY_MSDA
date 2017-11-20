@@ -1,0 +1,379 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={DATA 607 - Week 12},
+            pdfauthor={Joshua Sturm and Aryeh Sturm},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{DATA 607 - Week 12}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{Joshua Sturm and Aryeh Sturm}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  \date{11/16/2017}
+
+
+\begin{document}
+\maketitle
+
+\subsection{Task}\label{task}
+
+For this assignment, you should take information from a relational
+database and migrate it to a NoSQL database of your own choosing.
+
+For the relational database, you might use the flights database, the tb
+database, the ``data skills'' database your team created for Project 3,
+or another database of your own choosing or creation.
+
+For the NoSQL database, you may use MongoDB (which we introduced in week
+7), Neo4j, or another NoSQL database of your choosing.
+
+Your migration process needs to be reproducible. R code is encouraged,
+but not required. You should also briefly describe the advantages and
+disadvantages of storing the data in a relational database vs.~your
+NoSQL database.
+
+\subsection{Approach}\label{approach}
+
+We'll be using the flights database from week one. It will be imported
+to MySQL, and then transferred to a new MongoDB database. We chose to
+work with MongoDB simply because we've never used it before, so we
+wanted to try it out.
+
+\subsection{Import libraries}\label{import-libraries}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\KeywordTok{library}\NormalTok{(RMySQL)}
+\KeywordTok{library}\NormalTok{(mongolite)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Import MySQL database}\label{import-mysql-database}
+
+The database files are located in this project's GitHub repository.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#}
+\CommentTok{# Connect to the database}
+\CommentTok{#}
+\NormalTok{flights.con <-}\StringTok{ }\KeywordTok{dbConnect}\NormalTok{(}\KeywordTok{MySQL}\NormalTok{(),}
+                         \DataTypeTok{user =} \StringTok{'test'}\NormalTok{,}
+                         \DataTypeTok{password =} \StringTok{'thisisnotsecure'}\NormalTok{,}
+                         \DataTypeTok{host =} \StringTok{'localhost'}\NormalTok{,}
+                         \DataTypeTok{dbname =} \StringTok{'flights'}\NormalTok{)}
+\CommentTok{# Ensure proper connection}
+\KeywordTok{dbGetInfo}\NormalTok{(flights.con)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $host
+## [1] "localhost"
+## 
+## $user
+## [1] "test"
+## 
+## $dbname
+## [1] "flights"
+## 
+## $conType
+## [1] "localhost via TCP/IP"
+## 
+## $serverVersion
+## [1] "5.7.20-log"
+## 
+## $protocolVersion
+## [1] 10
+## 
+## $threadId
+## [1] 22
+## 
+## $rsId
+## list()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{dbListTables}\NormalTok{(flights.con)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "airlines" "airports" "flights"  "planes"   "weather"
+\end{verbatim}
+
+\subsection{Assign tables to
+variables}\label{assign-tables-to-variables}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#}
+\CommentTok{# Two ways two do this: dbSendQuery() + dbFetch(), or in one step using dbGetQuery()}
+\CommentTok{#}
+\NormalTok{airlines <-}\StringTok{ }\KeywordTok{dbGetQuery}\NormalTok{(flights.con,}
+                       \StringTok{'SELECT * FROM airlines'}\NormalTok{)}
+\NormalTok{airports <-}\StringTok{ }\KeywordTok{dbGetQuery}\NormalTok{(flights.con,}
+                       \StringTok{'SELECT * FROM airports'}\NormalTok{)}
+\NormalTok{flights <-}\StringTok{ }\KeywordTok{dbGetQuery}\NormalTok{(flights.con,}
+                      \StringTok{'SELECT * FROM flights'}\NormalTok{)}
+\NormalTok{planes <-}\StringTok{ }\KeywordTok{dbGetQuery}\NormalTok{(flights.con,}
+                     \StringTok{'SELECT * FROM planes'}\NormalTok{)}
+\NormalTok{weather <-}\StringTok{ }\KeywordTok{dbGetQuery}\NormalTok{(flights.con,}
+                      \StringTok{'SELECT * FROM weather'}\NormalTok{)}
+
+\CommentTok{#}
+\CommentTok{# Sever database connection}
+\CommentTok{#}
+\KeywordTok{dbDisconnect}\NormalTok{(flights.con)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\subsection{Create Mongo collection and insert
+documents}\label{create-mongo-collection-and-insert-documents}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#}
+\CommentTok{# Run 'mongod' to start a local mongo server}
+\CommentTok{#}
+\NormalTok{flights.mongo <-}\StringTok{ }\KeywordTok{mongo}\NormalTok{(}\DataTypeTok{collection =} \StringTok{"flights"}\NormalTok{, }\DataTypeTok{db =} \StringTok{"flightsdb"}\NormalTok{)}
+\NormalTok{flights.mongo}\OperatorTok{$}\KeywordTok{insert}\NormalTok{(flights)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## List of 5
+##  $ nInserted  : num 336776
+##  $ nMatched   : num 0
+##  $ nRemoved   : num 0
+##  $ nUpserted  : num 0
+##  $ writeErrors: list()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#}
+\CommentTok{# We can also create individual tables (databases) for airlines, airports, etc...}
+\CommentTok{#}
+\NormalTok{airlines.mongo <-}\StringTok{ }\KeywordTok{mongo}\NormalTok{(}\DataTypeTok{collection =} \StringTok{"flights"}\NormalTok{, }\DataTypeTok{db =} \StringTok{"airlines"}\NormalTok{)}
+\NormalTok{airlines.mongo}\OperatorTok{$}\KeywordTok{insert}\NormalTok{(airlines)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## List of 5
+##  $ nInserted  : num 16
+##  $ nMatched   : num 0
+##  $ nRemoved   : num 0
+##  $ nUpserted  : num 0
+##  $ writeErrors: list()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{airports.mongo <-}\StringTok{ }\KeywordTok{mongo}\NormalTok{(}\DataTypeTok{collection =} \StringTok{"flights"}\NormalTok{, }\DataTypeTok{db =} \StringTok{"airports"}\NormalTok{)}
+\NormalTok{airports.mongo}\OperatorTok{$}\KeywordTok{insert}\NormalTok{(airports)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## List of 5
+##  $ nInserted  : num 1397
+##  $ nMatched   : num 0
+##  $ nRemoved   : num 0
+##  $ nUpserted  : num 0
+##  $ writeErrors: list()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{planes.mongo <-}\StringTok{ }\KeywordTok{mongo}\NormalTok{(}\DataTypeTok{collection =} \StringTok{"flights"}\NormalTok{, }\DataTypeTok{db =} \StringTok{"planes"}\NormalTok{)}
+\NormalTok{planes.mongo}\OperatorTok{$}\KeywordTok{insert}\NormalTok{(planes)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## List of 5
+##  $ nInserted  : num 3322
+##  $ nMatched   : num 0
+##  $ nRemoved   : num 0
+##  $ nUpserted  : num 0
+##  $ writeErrors: list()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{weather.mongo <-}\StringTok{ }\KeywordTok{mongo}\NormalTok{(}\DataTypeTok{collection =} \StringTok{"flights"}\NormalTok{, }\DataTypeTok{db =} \StringTok{"weather"}\NormalTok{)}
+\NormalTok{weather.mongo}\OperatorTok{$}\KeywordTok{insert}\NormalTok{(weather)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## List of 5
+##  $ nInserted  : num 8719
+##  $ nMatched   : num 0
+##  $ nRemoved   : num 0
+##  $ nUpserted  : num 0
+##  $ writeErrors: list()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#}
+\CommentTok{# Verify migration worked correctly}
+\CommentTok{#}
+\KeywordTok{head}\NormalTok{(flights.mongo}\OperatorTok{$}\KeywordTok{find}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   year month day dep_time dep_delay arr_time arr_delay carrier tailnum
+## 1 2013     1   1      517         2      830        11      UA  N14228
+## 2 2013     1   1      533         4      850        20      UA  N24211
+## 3 2013     1   1      542         2      923        33      AA  N619AA
+## 4 2013     1   1      544        -1     1004       -18      B6  N804JB
+## 5 2013     1   1      554        -6      812       -25      DL  N668DN
+## 6 2013     1   1      554        -4      740        12      UA  N39463
+##   flight origin dest air_time distance hour minute
+## 1   1545    EWR  IAH      227     1400    5     17
+## 2   1714    LGA  IAH      227     1416    5     33
+## 3   1141    JFK  MIA      160     1089    5     42
+## 4    725    JFK  BQN      183     1576    5     44
+## 5    461    LGA  ATL      116      762    6     54
+## 6   1696    EWR  ORD      150      719    6     54
+\end{verbatim}
+
+\subsection{Conclusion}\label{conclusion}
+
+SQL is an intuitive, standardizard language. It's a lot more common, so
+it has much more community support.\\
+On the downside, it requires long statements for complex queries, and
+it's not so simple for quick edits.
+
+NoSQL is more dynamic, and more scalable. It's also schema-less, so it
+can be deployed quickly, with lower maintenance costs.~It is gaining in
+popularity (MongoDB recently went public). However, it's a
+non-standardized language, so it varies between brands. Since it's
+newer, it also doesn't have the community support that traditional
+relational databases have.
+
+
+\end{document}
