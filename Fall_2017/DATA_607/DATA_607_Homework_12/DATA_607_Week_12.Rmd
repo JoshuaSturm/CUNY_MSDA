@@ -1,0 +1,112 @@
+---
+title: "DATA 607 - Week 12"
+author: "Joshua Sturm and Aryeh Sturm"
+date: "11/16/2017"
+output:
+  pdf_document:
+    keep_tex: yes
+  html_document:
+    highlight: pygments
+    theme: cerulean
+    code_folding: show
+    toc: yes
+    toc_float: yes
+    smart: no
+always_allow_html: yes
+---
+
+## Task
+For this assignment, you should take information from a relational database and migrate it to a NoSQL database of your own choosing. 
+
+For the relational database, you might use the flights database, the tb database, the "data skills" database your team created for Project 3, or another database of your own choosing or creation.
+
+For the NoSQL database, you may use MongoDB (which we introduced in week 7), Neo4j, or another NoSQL database of your choosing.
+
+Your migration process needs to be reproducible.  R code is encouraged, but not required.  You should also briefly describe the advantages and disadvantages of storing the data in a relational database vs. your NoSQL database.
+
+```{r wd, echo = F}
+setwd("C:/Users/Shua/Dropbox/MSDA/DATA 607/Week 12")
+```
+
+## Approach
+We'll be using the flights database from week one. It will be imported to MySQL, and then transferred to a new MongoDB database. We chose to work with MongoDB simply because we've never used it before, so we wanted to try it out.
+
+## Import libraries
+```{r import-libraries, warn = F, message = F}
+library(tidyverse)
+library(RMySQL)
+library(mongolite)
+```
+
+## Import MySQL database
+The database files are located in this project's GitHub repository.
+```{r flights-mysql}
+#
+# Connect to the database
+#
+flights.con <- dbConnect(MySQL(),
+                         user = 'test',
+                         password = 'thisisnotsecure',
+                         host = 'localhost',
+                         dbname = 'flights')
+# Ensure proper connection
+dbGetInfo(flights.con)
+dbListTables(flights.con)
+```
+
+## Assign tables to variables
+```{r mysql-rvars}
+#
+# Two ways two do this: dbSendQuery() + dbFetch(), or in one step using dbGetQuery()
+#
+airlines <- dbGetQuery(flights.con,
+                       'SELECT * FROM airlines')
+airports <- dbGetQuery(flights.con,
+                       'SELECT * FROM airports')
+flights <- dbGetQuery(flights.con,
+                      'SELECT * FROM flights')
+planes <- dbGetQuery(flights.con,
+                     'SELECT * FROM planes')
+weather <- dbGetQuery(flights.con,
+                      'SELECT * FROM weather')
+
+#
+# Sever database connection
+#
+dbDisconnect(flights.con)
+```
+
+## Create Mongo collection and insert documents
+```{r mongodb-create}
+#
+# Run 'mongod' to start a local mongo server
+#
+flights.mongo <- mongo(collection = "flights", db = "flightsdb")
+flights.mongo$insert(flights)
+
+#
+# We can also create individual tables (databases) for airlines, airports, etc...
+#
+airlines.mongo <- mongo(collection = "flights", db = "airlines")
+airlines.mongo$insert(airlines)
+
+airports.mongo <- mongo(collection = "flights", db = "airports")
+airports.mongo$insert(airports)
+
+planes.mongo <- mongo(collection = "flights", db = "planes")
+planes.mongo$insert(planes)
+
+weather.mongo <- mongo(collection = "flights", db = "weather")
+weather.mongo$insert(weather)
+
+#
+# Verify migration worked correctly
+#
+head(flights.mongo$find())
+```
+
+## Conclusion
+SQL is an intuitive, standardizard language. It's a lot more common, so it has much more community support.\
+On the downside, it requires long statements for complex queries, and it's not so simple for quick edits. 
+
+NoSQL is more dynamic, and more scalable. It's also schema-less, so it can be deployed quickly, with lower maintenance costs.\ It is gaining in popularity (MongoDB recently went public). However, it's a non-standardized language, so it varies between brands. Since it's newer, it also doesn't have the community support that traditional relational databases have.

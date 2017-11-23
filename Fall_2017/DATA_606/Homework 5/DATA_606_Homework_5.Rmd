@@ -49,7 +49,7 @@ The standard deviation for the sample is `r s`.
 ## 5.14 SAT scores.
 SAT scores of students at an Ivy League college are distributed with a standard deviation of 250 points. Two statistics students, Raina and Luke, want to estimate the average SAT score of students at this college as part of a class project. They want their margin of error to be no more than 25 points.\
 (a) Raina wants to use a 90% confidence interval. How large a sample should she collect?\
-(b) Luke wants to use a 99% confidence interval. Without calculating the actual sample size, determine whether his sample should be larger or smaller than Raina’s, and explain your reasoning.\
+(b) Luke wants to use a 99% confidence interval. Without calculating the actual sample size, determine whether his sample should be larger or smaller than Raina's, and explain your reasoning.\
 (c) Calculate the minimum required sample size for Luke.
 
 ### (a)

@@ -1,0 +1,516 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={DATA 606 - Homework 6},
+            pdfauthor={Joshua Sturm},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{DATA 606 - Homework 6}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{Joshua Sturm}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  \date{11/12/2017}
+
+
+\begin{document}
+\maketitle
+
+\subsection{6.6 2010 Healthcare Law}\label{healthcare-law}
+
+On June 28, 2012 the U.S. Supreme Court upheld the much debated 2010
+healthcare law, declaring it constitutional. A Gallup poll released the
+day after this decision indicates that 46\% of 1,012 Americans agree
+with this decision. At a 95\% confidence level, this sample has a 3\%
+margin of error. Based on this information, determine if the following
+statements are true or false, and explain your reasoning.
+
+\subsubsection{(a)}\label{a}
+
+We are 95\% confident that between 43\% and 49\% of Americans in this
+sample support the decision of the U.S. Supreme Court on the 2010
+healthcare law.
+
+\paragraph{Solution}\label{solution}
+
+False. The confidence interval is for the entire population, not just
+the sample.
+
+\subsubsection{(b)}\label{b}
+
+We are 95\% confident that between 43\% and 49\% of Americans support
+the decision of the U.S. Supreme Court on the 2010 healthcare law.
+
+\paragraph{Solution}\label{solution-1}
+
+True. The confidence interval tells us about the entire population.
+
+\subsubsection{(c)}\label{c}
+
+If we considered many random samples of 1,012 Americans, and we
+calculated the sample proportions of those who support the decision of
+the U.S. Supreme Court, 95\% of those sample proportions will be between
+43\% and 49\%.
+
+\paragraph{Solution}\label{solution-2}
+
+False. The confidence interval only tells us about the population mean,
+not the proportions.
+
+\subsubsection{(d)}\label{d}
+
+The margin of error at a 90\% confidence level would be higher than 3\%.
+
+\paragraph{Solution}\label{solution-3}
+
+False. Since we don't need to be as certain with a lower confidence
+level, the interval will be more narrow, and so the margin of error will
+be lower.
+
+\subsection{6.12 Legalization of marijuana, Part
+I.}\label{legalization-of-marijuana-part-i.}
+
+The 2010 General Social Survey asked 1,259 US residents: ``Do you think
+the use of marijuana should be made legal, or not?'' 48\% of the
+respondents said it should be made legal.
+
+\subsubsection{(a)}\label{a-1}
+
+Is 48\% a sample statistic or a population parameter? Explain.
+
+\paragraph{Solution}\label{solution-4}
+
+It comes from sample data, so it is a sample statistic.
+
+\subsubsection{(b)}\label{b-1}
+
+Construct a 95\% confidence interval for the proportion of US residents
+who think marijuana should be made legal, and interpret it in the
+context of the data.
+
+\paragraph{Solution}\label{solution-5}
+
+\(SE = \sqrt{\frac{p\cdot(1-p)}{n}}\) \(ME = z^*SE\)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n <-}\StringTok{ }\DecValTok{1259}
+\NormalTok{p <-}\StringTok{ }\FloatTok{0.48}
+\NormalTok{z <-}\StringTok{ }\KeywordTok{qnorm}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{.}\DecValTok{05}\OperatorTok{/}\DecValTok{2}\NormalTok{)}
+\NormalTok{SE <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{((p}\OperatorTok{*}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{p)) }\OperatorTok{/}\StringTok{ }\NormalTok{n)}
+\NormalTok{ME <-}\StringTok{ }\NormalTok{z}\OperatorTok{*}\NormalTok{SE}
+\NormalTok{ci.lower <-}\StringTok{ }\NormalTok{p }\OperatorTok{-}\StringTok{ }\NormalTok{ME}
+\NormalTok{ci.upper <-}\StringTok{ }\NormalTok{p }\OperatorTok{+}\StringTok{ }\NormalTok{ME}
+\end{Highlighting}
+\end{Shaded}
+
+We are 95\% sure that between 45.24\% and 50.76\% of Americans are in
+favour of marijuana being made legal. \$ \#\#\# (c) A critic points out
+that this 95\% confidence interval is only accurate if the statistic
+follows a normal distribution, or if the normal model is a good
+approximation. Is this true for these data? Explain.
+
+\paragraph{Solution}\label{solution-6}
+
+We can use the normal approximation because all the conditions are
+satisfied. Samples are assumed to be independent, make up less than 10\%
+of the population, and the success-failure condition is valid.
+
+\subsubsection{(d)}\label{d-1}
+
+A news piece on this survey's findings states, ``Majority of Americans
+think marijuana should be legalized.'' Based on your confidence
+interval, is this news piece's statement justified?
+
+\paragraph{Solution}\label{solution-7}
+
+No. The interval is mostly below the 50\% mark, so it's unfair to call
+it a majority.
+
+\subsection{6.20 Legalize Marijuana, Part
+II.}\label{legalize-marijuana-part-ii.}
+
+As discussed in Exercise 6.12, the 2010 General Social Survey reported a
+sample where about 48\% of US residents thought marijuana should be made
+legal. If we wanted to limit the margin of error of a 95\% confidence
+interval to 2\%, about how many Americans would we need to survey?
+
+\subsubsection{Solution}\label{solution-8}
+
+\(ME = z^* SE\)\\
+\(SE = \sqrt{\frac{p\cdot(1-p)}{n}}\)\\
+\(\frac{ME}{z} = \sqrt{\frac{p\cdot(1-p)}{n}} \to \Big(\frac{ME}{z}\Big)^2 = \frac{p\cdot(1-p)}{n}\)\\
+Plugging in our values, we get:\\
+\(n \geq (1.96)^2\times\frac{0.48(1-0.48)}{(0.02)^2}\)\\
+Solving for \(n\), we need at least \(2398\) people to ensure a margin
+of error \(\leq 2\%\) with \(95\%\) confidence.
+
+\subsection{Sleep deprivation, CA vs.~OR, Part
+I.}\label{sleep-deprivation-ca-vs.or-part-i.}
+
+According to a report on sleep deprivation by the Centers for Disease
+Control and Prevention, the proportion of California residents who
+reported insuffcient rest or sleep during each of the preceding 30 days
+is 8.0\%, while this proportion is 8.8\% for Oregon residents. These
+data are based on simple random samples of 11,545 California and 4,691
+Oregon residents. Calculate a 95\% confidence interval for the
+difference between the proportions of Californians and Oregonians who
+are sleep deprived and interpret it in context of the data.
+
+\subsubsection{Solution}\label{solution-9}
+
+The sample was randomly selected, and made up of less than 10\% of the
+population. The success-failure condition is also satisfied, so we can
+use the normal approximation. Formula 6.9:
+\(SE_{\hat{p_1}-\hat{p_2}} = \sqrt{SE_{\hat{p_1}}^2 + SE_{\hat{p_2}}^2} = \sqrt{\frac{p_1(1-p_1)}{n_1}+\frac{p_2(1-p_2)}{n_2}}\)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n.ca <-}\StringTok{ }\DecValTok{11545}
+\NormalTok{p.ca <-}\StringTok{ }\FloatTok{0.08}
+
+\NormalTok{n.or <-}\StringTok{ }\DecValTok{4691}
+\NormalTok{p.or <-}\StringTok{ }\FloatTok{0.088}
+
+\NormalTok{p.diff <-}\StringTok{ }\NormalTok{p.ca }\OperatorTok{-}\StringTok{ }\NormalTok{p.or}
+
+\NormalTok{se.ca <-}\StringTok{ }\NormalTok{(p.ca}\OperatorTok{*}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{p.ca)) }\OperatorTok{/}\StringTok{ }\NormalTok{n.ca}
+\NormalTok{se.or <-}\StringTok{ }\NormalTok{(p.or}\OperatorTok{*}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{p.or)) }\OperatorTok{/}\StringTok{ }\NormalTok{n.or}
+\NormalTok{SE <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(se.ca }\OperatorTok{+}\StringTok{ }\NormalTok{se.or)}
+
+\NormalTok{z <-}\StringTok{ }\KeywordTok{qnorm}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{.}\DecValTok{05}\OperatorTok{/}\DecValTok{2}\NormalTok{)}
+\NormalTok{ME <-}\StringTok{ }\NormalTok{z}\OperatorTok{*}\NormalTok{SE}
+
+\NormalTok{ci.l <-}\StringTok{ }\NormalTok{p.diff }\OperatorTok{-}\StringTok{ }\NormalTok{ME}
+\NormalTok{ci.u <-}\StringTok{ }\NormalTok{p.diff }\OperatorTok{+}\StringTok{ }\NormalTok{ME}
+\end{Highlighting}
+\end{Shaded}
+
+We are 95\% confident that the difference in California's and Oregon's
+populations with sleep deprivation is between -0.017498 and 0.001498.
+
+\subsection{6.44 Barking deer.}\label{barking-deer.}
+
+Microhabitat factors associated with forage and bed sites of barking
+deer in Hainan Island, China were examined from 2001 to 2002. In this
+region woods make up 4.8\% of the land, cultivated grass plot makes up
+14.7\% and deciduous forests makes up 39.6\%. Of the 426 sites where the
+deer forage, 4 were categorized as woods, 16 as cultivated grassplot,
+and 61 as deciduous forests. The table below summarizes these data.
+
+\textbackslash{}begin\{center\}
+
+\begin{tabular}{c c c c c} 
+Woods   & Cultivated grassplot  & Deciduous forests  & Other & Total \\ 
+\hline 
+4       & 16                  & 61                 & 345   & 426 \\ 
+\end{tabular}
+
+\subsubsection{(a)}\label{a-2}
+
+Write the hypotheses for testing if barking deer prefer to forage in
+certain habitats over others.
+
+\paragraph{Solution}\label{solution-10}
+
+\(H_0\): Deer have no foraging location preference. \(H_A\): Deer do
+have a foraging location preference.
+
+\subsubsection{(b)}\label{b-2}
+
+What type of test can we use to answer this research question?
+
+\paragraph{Solution}\label{solution-11}
+
+We can use a chi-square test.
+
+\subsubsection{(c)}\label{c-1}
+
+Check if the assumptions and conditions required for this test are
+satisfied.
+
+\paragraph{Solution}\label{solution-12}
+
+There are two conditions needed to perform a chi-square test. Each case
+must be independent of the others, and Each scenario must have at least
+5 expected cases. We'll assume that the cases are independent.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n <-}\StringTok{ }\DecValTok{426}
+\NormalTok{pct <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\FloatTok{0.048}\NormalTok{, }\FloatTok{0.147}\NormalTok{, }\FloatTok{0.396}\NormalTok{, }\DecValTok{1}\OperatorTok{-}\FloatTok{0.048}\OperatorTok{-}\FloatTok{0.147}\OperatorTok{-}\FloatTok{0.396}\NormalTok{)}
+\NormalTok{expct <-}\StringTok{ }\NormalTok{pct }\OperatorTok{*}\StringTok{ }\NormalTok{n}
+\NormalTok{expct}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  20.448  62.622 168.696 174.234
+\end{verbatim}
+
+Since each scenario has at least 5 expected cases, the second condition
+is satisfied.
+
+\subsubsection{(d)}\label{d-2}
+
+Do these data provide convincing evidence that barking deer prefer to
+forage in certain habitats over others? Conduct an appropriate
+hypothesis test to answer this research question.
+
+\paragraph{Solution}\label{solution-13}
+
+\(\chi^2 = \frac{(O_1 - E_1)^2}{E_1}\)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{observed <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DecValTok{16}\NormalTok{, }\DecValTok{61}\NormalTok{, }\DecValTok{345}\NormalTok{)}
+
+\NormalTok{chi.sq <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(((observed }\OperatorTok{-}\StringTok{ }\NormalTok{expct)}\OperatorTok{^}\DecValTok{2}\NormalTok{) }\OperatorTok{/}\StringTok{ }\NormalTok{expct)}
+
+\NormalTok{k <-}\StringTok{ }\KeywordTok{NROW}\NormalTok{(observed)}
+\NormalTok{df <-}\StringTok{ }\NormalTok{k }\OperatorTok{-}\StringTok{ }\DecValTok{1}
+
+\KeywordTok{pchisq}\NormalTok{(chi.sq, }\DataTypeTok{df =}\NormalTok{ df, }\DataTypeTok{lower.tail =}\NormalTok{ F)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.799724e-61
+\end{verbatim}
+
+Since the p-value is \(\approx 0\), we reject the null hypothesis, and
+conclude that deer, indeed, have a preference as to where they forage.
+
+\subsection{6.48 Coffee and Depression.}\label{coffee-and-depression.}
+
+Researchers conducted a study investigating the relationship between
+caffeinated coffee consumption and risk of depression in women. They
+collected data on 50,739 women free of depression symptoms at the start
+of the study in the year 1996, and these women were followed through
+2006. The researchers used questionnaires to collect data on caffeinated
+coffee consumption, asked each individual about physician-diagnosed
+depression, and also asked about the use of antidepressants. The table
+below shows the distribution of incidences of depression by amount of
+caffeinated coffee consumption.
+
+\{\small
+
+\begin{center}
+\begin{tabular}{l  l rrrrrr}
+    &  \multicolumn{1}{c}{}     & \multicolumn{5}{c}{\textit{Caffeinated coffee consumption}} \\
+\cline{3-7}
+    &       & $\le$ 1   & 2-6   & 1 & 2-3   & $\ge$ 4   &   \\
+    &       & cup/week  & cups/week & cup/day   & cups/day  & cups/day  & Total  \\
+\cline{2-8}
+\textit{Clinical} & Yes & 670 & \fbox{\textcolor{blue}{373}} & 905   & 564   & 95    & 2,607 \\
+\textit{depression} & No& 11,545    & 6,244 & 16,329    & 11,726    & 2,288     & 48,132 \\
+\cline{2-8}
+                & Total & 12,215    & 6,617 & 17,234    & 12,290    & 2,383     & 50,739 \\
+\cline{2-8}
+\end{tabular}
+\end{center}
+
+\}
+
+\subsubsection{(a)}\label{a-3}
+
+What type of test is appropriate for evaluating if there is an
+association between coffee intake and depression?
+
+\paragraph{Solution}\label{solution-14}
+
+We can use the chi-square test for two-way tables.
+
+\subsubsection{(b)}\label{b-3}
+
+Write the hypotheses for the test you identified in part (a).
+
+\paragraph{Solution}\label{solution-15}
+
+\(H_0\): There is no association between caffeinated coffee consumption
+and depression in women. \(H_A\): There is an association between
+caffeinated coffee consumption and depression in women.
+
+\subsubsection{(c)}\label{c-2}
+
+Calculate the overall proportion of women who do and do not suffer from
+depression.
+
+\paragraph{Solution}\label{solution-16}
+
+Women who suffer from depression:
+\(\frac{2607}{50739} = 0.05138059 \approx 5.14\%\). Women who do not
+suffer from depression:
+\(\frac{48132}{50739} = 0.9486194 \approx 94.86\%\).
+
+\subsubsection{(d)}\label{d-3}
+
+Identify the expected count for the highlighted cell, and calculate the
+contribution of this cell to the test statistic, i.e.
+\(\frac{(\text{observed} - \text{Expected})^2}{\text{Expected}}\).
+
+\paragraph{Solution}\label{solution-17}
+
+\(\text{Expected Count}_{row \ i,\ col \ j} = \frac{(\text{row}\ i \ \text{total}) \times (\text{column}\ k \ \text{total})}{\text{table total}}\).
+Expected count:
+\(\frac{2607}{50739} \times 6617 = 339.9854 \approx 340\). Cell's
+contribution to test statistic:
+\(\frac{(373 - 339.9854)^2}{339.9854} = 3.205914\).
+
+\subsubsection{(e)}\label{e}
+
+The test statistic is \(\chi^2 = 20.93\). What is the p-value?
+
+\paragraph{Solution}\label{solution-18}
+
+df = (number of rows minus 1) \(\times\) (number of columns minus 1)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{chi.sq <-}\StringTok{ }\FloatTok{20.93}
+\NormalTok{df <-}\StringTok{ }\NormalTok{(}\DecValTok{2} \OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{)}\OperatorTok{*}\NormalTok{(}\DecValTok{5} \OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{)}
+\NormalTok{p <-}\StringTok{ }\KeywordTok{pchisq}\NormalTok{(chi.sq, }\DataTypeTok{df =}\NormalTok{ df, }\DataTypeTok{lower.tail =}\NormalTok{ F)}
+\NormalTok{p}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.0003269507
+\end{verbatim}
+
+\subsubsection{(f)}\label{f}
+
+What is the conclusion of the hypothesis test?
+
+\paragraph{Solution}\label{solution-19}
+
+Since \(p = 0.0003269507 < 0.05\), we reject the null hypothesis, and
+conclude that there is an association between women drinking caffeinated
+coffee, and experiencing depression.
+
+\subsubsection{(g)}\label{g}
+
+One of the authors of this study was quoted on the NYTimes as saying it
+was ``too early to recommend that women load up on extra coffee'' based
+on just this study. Do you agree with this statement? Explain your
+reasoning.
+
+\paragraph{Solution}\label{solution-20}
+
+I agree with the statement, because this study was observational, not
+experimental, so we can't draw conclusions from it; there may be other
+factors involved.
+
+
+\end{document}
